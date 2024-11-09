@@ -33,17 +33,15 @@ class _MainScreenState extends State<MainScreen> {
     });
   }
 
-  // Get the current day
   DateTime today = DateTime.now();
 
-  // Helper function to format day names
+
   String getDayName(DateTime date) {
-    return DateFormat('EEE').format(date); // e.g., Mon, Tue
+    return DateFormat('EEE').format(date);
   }
 
-  // Helper function to format day numbers
   String getDayNumber(DateTime date) {
-    return DateFormat('d').format(date); // e.g., 22
+    return DateFormat('d').format(date);
   }
 
   @override
@@ -62,7 +60,6 @@ class _MainScreenState extends State<MainScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const SizedBox(height: 40),
-            // Top section with date and greeting
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -102,22 +99,17 @@ class _MainScreenState extends State<MainScreen> {
               ],
             ),
             const SizedBox(height: 30),
-            // Circular Date Widgets for previous, current, and next two days
             SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  // Previous day
                   buildCircularDateWidget(previousDay, Colors.grey),
                   const SizedBox(width: 20),
-                  // Current day highlighted in purple
                   buildCircularDateWidget(currentDay, Colors.purple),
                   const SizedBox(width: 20),
-                  // Next day 1
                   buildCircularDateWidget(nextDay1, Colors.grey),
                   const SizedBox(width: 20),
-                  // Next day 2
                   buildCircularDateWidget(nextDay2, Colors.grey),
                 ],
               ),
@@ -129,7 +121,6 @@ class _MainScreenState extends State<MainScreen> {
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 20),
-            // Staggered Layout using Containers
             Expanded(
               child: Column(
                 children: [
