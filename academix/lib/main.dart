@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:academix/signup.dart';
 import 'package:academix/forgetpassword.dart';
+import 'package:academix/mainscreen.dart';
 
 void main() {
   runApp(const AcademixApp());
@@ -133,7 +134,7 @@ class _LoginPageState extends State<LoginPage> {
                   width: double.infinity,
                   child: ElevatedButton(
                     onPressed: () {
-                      // Handle login
+                      Navigator.push(context, MaterialPageRoute(builder: (context)=> MainScreen()));
                     },
                     child: Text(
                       'Login',
