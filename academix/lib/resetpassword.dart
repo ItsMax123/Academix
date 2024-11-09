@@ -112,7 +112,7 @@ class _resetPasswordState extends State<resetPassword> {
                       ),
                       SizedBox(height: 20),
                       Align(
-                        alignment: Alignment.centerLeft, // Aligns the label to the left
+                        alignment: Alignment.centerLeft,
                         child: Text(
                           "Confirm Password",
                           style: TextStyle(fontWeight: FontWeight.bold),
