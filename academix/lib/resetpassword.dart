@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:academix/main.dart';
+import 'package:academix/login.dart';
 
 
 void main() {
