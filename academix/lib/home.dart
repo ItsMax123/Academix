@@ -1,30 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-void main() {
-  runApp(const AcademixApp());
-}
-
-class AcademixApp extends StatelessWidget {
-  const AcademixApp({Key? key}) : super(key: key);
+class HomePage extends StatefulWidget {
+  const HomePage({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: MainScreen(),
-    );
-  }
+  State<HomePage> createState() => _HomePageState();
 }
 
-class MainScreen extends StatefulWidget {
-  const MainScreen({Key? key}) : super(key: key);
-
-  @override
-  State<MainScreen> createState() => _MainScreenState();
-}
-
-class _MainScreenState extends State<MainScreen> {
+class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
 
   void _onItemTapped(int index) {
@@ -34,7 +18,6 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   DateTime today = DateTime.now();
-
 
   String getDayName(DateTime date) {
     return DateFormat('EEE').format(date);
@@ -68,24 +51,25 @@ class _MainScreenState extends State<MainScreen> {
                   children: [
                     Text(
                       DateFormat('EEEE').format(today),
-                      style: TextStyle(color: Colors.grey, fontSize: 16),
+                      style: const TextStyle(color: Colors.grey, fontSize: 16),
                     ),
                     const SizedBox(height: 5),
                     Text(
                       "${DateFormat('d').format(today)} ${DateFormat('MMMM').format(today)}",
-                      style: TextStyle(
+                      style: const TextStyle(
                         color: Colors.black,
                         fontSize: 26,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                     const SizedBox(height: 10),
-                    Text(
+                    const Text(
                       "Hi User.",
-                      style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                      style:
+                          TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(height: 5),
-                    Text(
+                    const Text(
                       "Number of tasks pending",
                       style: TextStyle(color: Colors.grey),
                     ),
@@ -235,7 +219,7 @@ class _MainScreenState extends State<MainScreen> {
             children: [
               Text(
                 getDayNumber(date),
-                style: TextStyle(
+                style: const TextStyle(
                   color: Colors.white,
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
@@ -243,7 +227,7 @@ class _MainScreenState extends State<MainScreen> {
               ),
               Text(
                 getDayName(date),
-                style: TextStyle(
+                style: const TextStyle(
                   color: Colors.white,
                   fontSize: 14,
                 ),
@@ -255,5 +239,3 @@ class _MainScreenState extends State<MainScreen> {
     );
   }
 }
-
-

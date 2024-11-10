@@ -1,35 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:academix/main.dart';
+import 'package:academix/login.dart';
 
-void main() {
-  runApp(const AcademixApp());
-}
-class AcademixApp extends StatelessWidget {
-  const AcademixApp({Key? key}) : super(key: key);
+class RegisterPage extends StatefulWidget {
+  const RegisterPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: signUpPage(),
-    );
-  }
-}
-class signUpPage extends StatefulWidget {
-  const signUpPage({super.key});
-
-  @override
-  State<signUpPage> createState() => _signUpPageState();
+  State<RegisterPage> createState() => _RegisterPageState();
 }
 
-class _signUpPageState extends State<signUpPage> {
+class _RegisterPageState extends State<RegisterPage> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController firstNameController = TextEditingController();
   final TextEditingController lastNameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +27,7 @@ class _signUpPageState extends State<signUpPage> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Padding(
+                const Padding(
                   padding: EdgeInsets.only(left: 10),
                   child: Text(
                     'Welcome To Academix',
@@ -53,9 +37,9 @@ class _signUpPageState extends State<signUpPage> {
                     ),
                   ),
                 ),
-                SizedBox(height: 25),
+                const SizedBox(height: 25),
                 Padding(
-                  padding: EdgeInsets.only(left: 45),
+                  padding: const EdgeInsets.only(left: 45),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -66,7 +50,7 @@ class _signUpPageState extends State<signUpPage> {
                           color: Colors.blue[800],
                         ),
                       ),
-                      SizedBox(height: 10),
+                      const SizedBox(height: 10),
                       Container(
                         width: 40,
                         height: 1.5,
@@ -75,82 +59,86 @@ class _signUpPageState extends State<signUpPage> {
                     ],
                   ),
                 ),
-                SizedBox(height: 25),
+                const SizedBox(height: 25),
                 Form(
                   key: _formKey,
                   child: Column(
                     children: [
                       TextField(
                         controller: firstNameController,
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           labelText: 'First Name',
                           labelStyle: TextStyle(color: Colors.grey),
                           prefixIcon: Icon(Icons.person, color: Colors.grey),
                         ),
                       ),
-                      SizedBox(height: 10),
+                      const SizedBox(height: 10),
                       TextField(
                         controller: lastNameController,
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           labelText: 'Last Name',
                           labelStyle: TextStyle(color: Colors.grey),
                           prefixIcon: Icon(Icons.person, color: Colors.grey),
                         ),
                       ),
-                      SizedBox(height: 10),
+                      const SizedBox(height: 10),
                       TextField(
                         controller: emailController,
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           labelText: 'Email Address',
                           labelStyle: TextStyle(color: Colors.grey),
-                          prefixIcon: Icon(Icons.email_outlined, color: Colors.grey),
+                          prefixIcon:
+                              Icon(Icons.email_outlined, color: Colors.grey),
                         ),
                       ),
-                      SizedBox(height: 10),
+                      const SizedBox(height: 10),
                       TextField(
                         controller: passwordController,
                         obscureText: true,
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           labelText: 'Password',
                           labelStyle: TextStyle(color: Colors.grey),
-                          prefixIcon: Icon(Icons.lock_outline, color: Colors.grey),
-                          suffixIcon: Icon(Icons.visibility_outlined, color: Colors.grey),
+                          prefixIcon:
+                              Icon(Icons.lock_outline, color: Colors.grey),
+                          suffixIcon: Icon(Icons.visibility_outlined,
+                              color: Colors.grey),
                         ),
                       ),
                     ],
                   ),
                 ),
-                SizedBox(height: 70),
+                const SizedBox(height: 70),
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
                     onPressed: () {
                       // Handle login
                     },
-                    child: Text(
-                      'Sign Up',
-                      style: TextStyle(fontSize: 20),
-                    ),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.black,
                       foregroundColor: Colors.white,
-                      padding: EdgeInsets.symmetric(vertical: 16),
+                      padding: const EdgeInsets.symmetric(vertical: 16),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(5),
                       ),
                     ),
+                    child: const Text(
+                      'Sign Up',
+                      style: TextStyle(fontSize: 20),
+                    ),
                   ),
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text("Don’t have an account? "),
+                    const Text("Don’t have an account? "),
                     GestureDetector(
                       onTap: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => LoginPage()),
+                          MaterialPageRoute(
+                              builder: (context) => const LoginPage()),
                         );
                       },
                       child: Text(
@@ -163,7 +151,7 @@ class _signUpPageState extends State<signUpPage> {
               ],
             ),
           ),
-          Spacer(),
+          const Spacer(),
           Image.asset(
             "assets/img.jpg",
             height: 120,
