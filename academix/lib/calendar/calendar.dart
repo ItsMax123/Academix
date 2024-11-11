@@ -1,10 +1,10 @@
-import 'package:academix/task.dart';
+import 'package:academix/calendar/task.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'add_task.dart';
-import 'bottom_nav.dart';
-import 'db/task.dart';
-import 'db/user.dart';
+import '../bottom_nav.dart';
+import '../db/task.dart';
+import '../db/user.dart';
 
 class CalendarPage extends StatefulWidget {
   final User user;

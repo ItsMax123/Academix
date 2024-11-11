@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'db/task.dart';
-import 'db/user.dart';
+import '../bottom_nav.dart';
+import '../db/task.dart';
+import '../db/user.dart';
 
 class AddTaskPage extends StatefulWidget {
   final User user;
