@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
-import 'db/user.dart';
+import 'package:academix/profile/edit_profile.dart';
+import '../bottom_nav.dart';
+import '../db/user.dart';
 
-class EditProfilePage extends StatefulWidget {
+class ProfilePage extends StatefulWidget {
   final User user;
 
-  const EditProfilePage({super.key, required this.user});
+  const ProfilePage({super.key, required this.user});
 
   @override
-  State<EditProfilePage> createState() => _EditProfilePageState();
+  State<ProfilePage> createState() => _ProfilePageState();
 }
 
-class _EditProfilePageState extends State<EditProfilePage> {
+class _ProfilePageState extends State<ProfilePage> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController firstNameController = TextEditingController();
   final TextEditingController lastNameController = TextEditingController();
@@ -20,7 +22,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      bottomNavigationBar: BottomNav(user: widget.user, index: 3),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 60.0, vertical: 20.0),
         child: Column(
@@ -58,8 +60,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
                         labelStyle: TextStyle(color: Colors.grey),
                         border: InputBorder.none,
                         contentPadding: EdgeInsets.symmetric(horizontal: 10),
-                        suffixIcon: Icon(Icons.edit, color: Colors.grey),
-
                       ),
                     ),
                   ),
@@ -85,8 +85,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
                         labelStyle: TextStyle(color: Colors.grey),
                         border: InputBorder.none,
                         contentPadding: EdgeInsets.symmetric(horizontal: 10),
-                        suffixIcon: Icon(Icons.edit, color: Colors.grey),
-
                       ),
                     ),
                   ),
@@ -112,7 +110,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
                         labelStyle: TextStyle(color: Colors.grey),
                         border: InputBorder.none,
                         contentPadding: EdgeInsets.symmetric(horizontal: 10),
-                        suffixIcon: Icon(Icons.edit, color: Colors.grey),
                       ),
                     ),
                   ),
@@ -139,7 +136,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
                         labelStyle: TextStyle(color: Colors.grey),
                         border: InputBorder.none,
                         contentPadding: EdgeInsets.symmetric(horizontal: 10),
-                        suffixIcon: Icon(Icons.edit, color: Colors.grey),
                       ),
                     ),
                   ),
@@ -151,7 +147,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: () {
-                  // Navigator.push(context, MaterialPageRoute(builder: (context)=> ))
+                Navigator.push(context, MaterialPageRoute(builder: (context)=> EditProfilePage(user: widget.user)));
                 },
                 child: Text(
                   'Edit Profile',
@@ -173,4 +169,5 @@ class _EditProfilePageState extends State<EditProfilePage> {
     );
   }
 }
+
 
