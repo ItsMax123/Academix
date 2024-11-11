@@ -3,41 +3,43 @@ import 'package:intl/intl.dart';
 import 'db/task.dart';
 import 'db/user.dart';
 
-class TaskPage extends StatefulWidget {
+class AddTaskPage extends StatefulWidget {
   final User user;
-  final Task task;
 
-  const TaskPage({super.key, required this.user, required this.task});
+  const AddTaskPage({super.key, required this.user});
 
   @override
-  State<TaskPage> createState() => _TaskPageState();
+  State<AddTaskPage> createState() => _AddTaskPageState();
 }
 
-class _TaskPageState extends State<TaskPage> {
+class _AddTaskPageState extends State<AddTaskPage> {
+  String title = "";
+  String description = "";
+  String type = "Other";
+  DateTime date = DateTime.now();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Task"),
+        title: const Text("Add Task"),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 30),
         child: Column(
           children: [
-            TextFormField(
-              initialValue: widget.task.title,
+            TextField(
               onChanged: (value) {
-                widget.task.title = value;
+                title = value;
               },
             ),
-            TextFormField(
-              initialValue: widget.task.description,
+            TextField(
               onChanged: (value) {
-                widget.task.description = value;
+                description = value;
               },
             ),
             DropdownButton(
-              hint: Text(widget.task.type),
+              hint: Text(type),
               items: const [
                 DropdownMenuItem(value: "Exam", child: Text("Exam")),
                 DropdownMenuItem(
@@ -50,7 +52,7 @@ class _TaskPageState extends State<TaskPage> {
               ],
               onChanged: (value) {
                 setState(() {
-                  if (value != null) widget.task.type = value;
+                  if (value != null) type = value;
                 });
               },
             ),
@@ -58,39 +60,24 @@ class _TaskPageState extends State<TaskPage> {
               onPressed: () async {
                 final DateTime? picked = await showDatePicker(
                   context: context,
-                  initialDate: widget.task.date,
+                  initialDate: date,
                   firstDate: DateTime.now().subtract(const Duration(days: 999)),
                   lastDate: DateTime.now().add(const Duration(days: 999)),
                 );
-                if (picked != null && picked != widget.task.date) {
+                if (picked != null && picked != date) {
                   setState(() {
-                    widget.task.date = picked;
+                    date = picked;
                   });
                 }
               },
-              child: Text(DateFormat('MMMM d, yyyy').format(widget.task.date)),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Text("Completed", style: TextStyle(fontSize: 20)),
-                Switch(
-                  value: widget.task.completed,
-                  activeColor: Colors.blue,
-                  onChanged: (bool value) {
-                    setState(() {
-                      widget.task.completed = value;
-                    });
-                  },
-                ),
-              ],
+              child: Text(DateFormat('MMMM d, yyyy').format(date)),
             ),
             ElevatedButton(
               onPressed: () {
-                widget.user.tasks.remove(widget.task);
+                widget.user.tasks.add(Task(title, description, type, date, false));
                 Navigator.pop(context);
               },
-              child: const Text("Delete Task"),
+              child: const Text("Create Task"),
             ),
           ],
         ),

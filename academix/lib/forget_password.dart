@@ -1,34 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:academix/login.dart';
+import 'package:academix/reset_password.dart';
 
-
-void main() {
-  runApp(const AcademixApp());
-}
-
-class AcademixApp extends StatelessWidget {
-  const AcademixApp({Key? key}) : super(key: key);
+class ForgetPasswordPage extends StatefulWidget {
+  const ForgetPasswordPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: resetPassword(),
-    );
-  }
-}
-class resetPassword extends StatefulWidget {
-  const resetPassword({super.key});
-
-  @override
-  State<resetPassword> createState() => _resetPasswordState();
+  State<ForgetPasswordPage> createState() => _ForgetPasswordPageState();
 }
 
-class _resetPasswordState extends State<resetPassword> {
+class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
   final _formKey = GlobalKey<FormState>();
-  final TextEditingController resetPassword = TextEditingController();
-  final TextEditingController reEnterPassword = TextEditingController();
-
+  final TextEditingController emailController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -82,12 +64,12 @@ class _resetPasswordState extends State<resetPassword> {
                 ),
                 SizedBox(height: 20),
                 Text(
-                  "Please enter your New password",
+                  "Please enter your email to reset the password",
                   style: TextStyle(color: Colors.grey),
                 ),
                 SizedBox(height: 25),
                 Text(
-                  "Enter New Password",
+                  "Your Email",
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
                 SizedBox(height: 10),
@@ -95,56 +77,35 @@ class _resetPasswordState extends State<resetPassword> {
                   key: _formKey,
                   child: Column(
                     children: [
-                      SizedBox(height: 10,),
+SizedBox(height: 10,),
                       Container(
                         decoration: BoxDecoration(
                           border: Border.all(color: Colors.grey),
                           borderRadius: BorderRadius.circular(5),
                         ),
                         child: TextField(
-                          controller: resetPassword,
+                          controller: emailController,
                           decoration: InputDecoration(
-                            labelText: 'Enter new password',
+                            labelText: 'Email Address',
                             labelStyle: TextStyle(color: Colors.grey),
+                            prefixIcon: Icon(Icons.email_outlined, color: Colors.grey),
                             border: InputBorder.none,
                           ),
                         ),
                       ),
-                      SizedBox(height: 20),
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          "Confirm Password",
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                      SizedBox(height: 20),
-                      Container(
-                        decoration: BoxDecoration(
-                          border: Border.all(color: Colors.grey),
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                        child: TextField(
-                          controller: reEnterPassword,
-                          decoration: InputDecoration(
-                            labelText: 'Re-enter new password',
-                            labelStyle: TextStyle(color: Colors.grey),
-                            border: InputBorder.none,
-                          ),
-                        ),
-                      ),
+                      SizedBox(height: 10),
                     ],
                   ),
                 ),
-                SizedBox(height: 60),
+                SizedBox(height: 70),
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
                     onPressed: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage()));
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => ResetPasswordPage()));
                     },
                     child: Text(
-                      'Update Password',
+                      'Reset Password',
                       style: TextStyle(fontSize: 20),
                     ),
                     style: ElevatedButton.styleFrom(
@@ -157,7 +118,7 @@ class _resetPasswordState extends State<resetPassword> {
                     ),
                   ),
                 ),
-                SizedBox(height: 15),
+                SizedBox(height: 20),
               ],
             ),
           ),

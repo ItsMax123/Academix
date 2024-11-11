@@ -1,22 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'bottom_nav.dart';
+import 'db/user.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  final User user;
+
+  const HomePage({super.key, required this.user});
 
   @override
   State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
-  int _selectedIndex = 0;
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
-
   DateTime today = DateTime.now();
 
   String getDayName(DateTime date) {
@@ -36,7 +32,7 @@ class _HomePageState extends State<HomePage> {
     DateTime nextDay2 = today.add(const Duration(days: 2));
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      bottomNavigationBar: BottomNav(user: widget.user, index: 0),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 20.0),
         child: Column(
