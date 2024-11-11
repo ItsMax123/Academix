@@ -1,40 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'bottom_nav.dart';
+import 'db/user.dart';
 
-void main() {
-  runApp(const AcademixApp());
-}
+class HomePage extends StatefulWidget {
+  final User user;
 
-class AcademixApp extends StatelessWidget {
-  const AcademixApp({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: MainScreen(),
-    );
-  }
-}
-
-class MainScreen extends StatefulWidget {
-  const MainScreen({Key? key}) : super(key: key);
+  const HomePage({super.key, required this.user});
 
   @override
-  State<MainScreen> createState() => _MainScreenState();
+  State<HomePage> createState() => _HomePageState();
 }
 
-class _MainScreenState extends State<MainScreen> {
-  int _selectedIndex = 0;
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
-
+class _HomePageState extends State<HomePage> {
   DateTime today = DateTime.now();
-
 
   String getDayName(DateTime date) {
     return DateFormat('EEE').format(date);
@@ -53,7 +32,7 @@ class _MainScreenState extends State<MainScreen> {
     DateTime nextDay2 = today.add(const Duration(days: 2));
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      bottomNavigationBar: BottomNav(user: widget.user, index: 0),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 20.0),
         child: Column(
@@ -68,24 +47,25 @@ class _MainScreenState extends State<MainScreen> {
                   children: [
                     Text(
                       DateFormat('EEEE').format(today),
-                      style: TextStyle(color: Colors.grey, fontSize: 16),
+                      style: const TextStyle(color: Colors.grey, fontSize: 16),
                     ),
                     const SizedBox(height: 5),
                     Text(
                       "${DateFormat('d').format(today)} ${DateFormat('MMMM').format(today)}",
-                      style: TextStyle(
+                      style: const TextStyle(
                         color: Colors.black,
                         fontSize: 26,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                     const SizedBox(height: 10),
-                    Text(
+                    const Text(
                       "Hi User.",
-                      style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                      style:
+                          TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(height: 5),
-                    Text(
+                    const Text(
                       "Number of tasks pending",
                       style: TextStyle(color: Colors.grey),
                     ),
@@ -235,7 +215,7 @@ class _MainScreenState extends State<MainScreen> {
             children: [
               Text(
                 getDayNumber(date),
-                style: TextStyle(
+                style: const TextStyle(
                   color: Colors.white,
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
@@ -243,7 +223,7 @@ class _MainScreenState extends State<MainScreen> {
               ),
               Text(
                 getDayName(date),
-                style: TextStyle(
+                style: const TextStyle(
                   color: Colors.white,
                   fontSize: 14,
                 ),
@@ -255,5 +235,3 @@ class _MainScreenState extends State<MainScreen> {
     );
   }
 }
-
-

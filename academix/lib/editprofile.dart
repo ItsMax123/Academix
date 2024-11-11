@@ -1,29 +1,16 @@
 import 'package:flutter/material.dart';
+import 'db/user.dart';
 
-void main() {
-  runApp(const AcademixApp());
-}
+class EditProfilePage extends StatefulWidget {
+  final User user;
 
-class AcademixApp extends StatelessWidget {
-  const AcademixApp({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: editProfile(),
-    );
-  }
-}
-
-class editProfile extends StatefulWidget {
-  const editProfile({super.key});
+  const EditProfilePage({super.key, required this.user});
 
   @override
-  State<editProfile> createState() => _editProfileState();
+  State<EditProfilePage> createState() => _EditProfilePageState();
 }
 
-class _editProfileState extends State<editProfile> {
+class _EditProfilePageState extends State<EditProfilePage> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController firstNameController = TextEditingController();
   final TextEditingController lastNameController = TextEditingController();
@@ -38,7 +25,7 @@ class _editProfileState extends State<editProfile> {
         padding: const EdgeInsets.symmetric(horizontal: 60.0, vertical: 20.0),
         child: Column(
           children: [
-            Icon(
+            const Icon(
               Icons.account_circle,
               size: 100,
               color: Colors.grey,
