@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:academix/login.dart';
-import 'package:academix/register.dart';
 
 void main() {
   runApp(const AcademixApp());

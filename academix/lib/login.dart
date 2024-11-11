@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:academix/register.dart';
-import 'package:academix/forgetpassword.dart';
+import 'package:academix/forget_password.dart';
 import 'package:academix/home.dart';
+
+import 'db/task.dart';
+import 'db/user.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -113,7 +116,7 @@ class _LoginPageState extends State<LoginPage> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const ForgetPassword()));
+                                builder: (context) => const ForgetPasswordPage()));
                       },
                       child: Text(
                         'Forget password',
@@ -127,10 +130,57 @@ class _LoginPageState extends State<LoginPage> {
                   width: double.infinity,
                   child: ElevatedButton(
                     onPressed: () {
+                      User user = User([
+                        Task("Example Exam Completed Title", "Example Exam Completed Description",
+                            "Exam", DateTime.now(), true),
+                        Task(
+                            "Example Presentation Completed Title",
+                            "Example Presentation Completed Description",
+                            "Presentation",
+                            DateTime.now(),
+                            true),
+                        Task(
+                            "Example Project Completed Title",
+                            "Example Project Completed Description",
+                            "Project",
+                            DateTime.now(),
+                            true),
+                        Task(
+                            "Example Assignment Completed Title",
+                            "Example Assignment Completed Description",
+                            "Assignment",
+                            DateTime.now(),
+                            true),
+                        Task(
+                            "Example Homework Completed Title",
+                            "Example Homework Completed Description",
+                            "Homework",
+                            DateTime.now(),
+                            true),
+                        Task("Example Other Completed Title", "Example Other Completed Description",
+                            "Other", DateTime.now(), true),
+                        Task("Example Exam Title", "Example Exam Description", "exam",
+                            DateTime.now()),
+                        Task("Example Presentation Title", "Example Presentation Description",
+                            "Presentation", DateTime.now()),
+                        Task("Example Project Title", "Example Project Description", "Project",
+                            DateTime.now()),
+                        Task("Example Assignment Title", "Example Assignment Description",
+                            "Assignment", DateTime.now()),
+                        Task("Example Homework Title", "Example Homework Description", "Homework",
+                            DateTime.now()),
+                        Task("Example Other Title", "Example Other Description", "Other",
+                            DateTime.now()),
+                        Task(
+                            "Example Exam Title with a very long title that will take more than one line.",
+                            "Example Other Description with a very long description that will take more than one line.",
+                            "Exam",
+                            DateTime.now()),
+                      ]);
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const HomePage()));
+                              builder: (context) => HomePage(user: user)));
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.black,

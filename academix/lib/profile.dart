@@ -1,30 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:academix/editprofile.dart';
+import 'bottom_nav.dart';
+import 'db/user.dart';
 
-void main() {
-  runApp(const AcademixApp());
-}
+class ProfilePage extends StatefulWidget {
+  final User user;
 
-class AcademixApp extends StatelessWidget {
-  const AcademixApp({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Profile(),
-    );
-  }
-}
-
-class Profile extends StatefulWidget {
-  const Profile({super.key});
+  const ProfilePage({super.key, required this.user});
 
   @override
-  State<Profile> createState() => _ProfileState();
+  State<ProfilePage> createState() => _ProfilePageState();
 }
 
-class _ProfileState extends State<Profile> {
+class _ProfilePageState extends State<ProfilePage> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController firstNameController = TextEditingController();
   final TextEditingController lastNameController = TextEditingController();
@@ -34,7 +22,7 @@ class _ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      bottomNavigationBar: BottomNav(user: widget.user, index: 3),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 60.0, vertical: 20.0),
         child: Column(
@@ -159,7 +147,7 @@ class _ProfileState extends State<Profile> {
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context)=> editProfile()));
+                Navigator.push(context, MaterialPageRoute(builder: (context)=> EditProfilePage(user: widget.user)));
                 },
                 child: Text(
                   'Edit Profile',
