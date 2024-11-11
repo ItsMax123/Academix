@@ -1,8 +1,8 @@
-import 'package:academix/calendar.dart';
+import 'package:academix/calendar/calendar.dart';
 import 'package:flutter/material.dart';
 import 'db/user.dart';
-import 'home.dart';
-import 'profile.dart';
+import 'home/home.dart';
+import 'profile/profile.dart';
 
 class BottomNav extends StatefulWidget {
   final User user;

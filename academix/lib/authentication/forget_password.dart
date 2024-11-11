@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:academix/login.dart';
+import 'package:academix/authentication/reset_password.dart';
 
-class ResetPasswordPage extends StatefulWidget {
-  const ResetPasswordPage({super.key});
+class ForgetPasswordPage extends StatefulWidget {
+  const ForgetPasswordPage({super.key});
 
   @override
-  State<ResetPasswordPage> createState() => _ResetPasswordPageState();
+  State<ForgetPasswordPage> createState() => _ForgetPasswordPageState();
 }
 
-class _ResetPasswordPageState extends State<ResetPasswordPage> {
+class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
   final _formKey = GlobalKey<FormState>();
-  final TextEditingController resetPassword = TextEditingController();
-  final TextEditingController reEnterPassword = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -65,12 +64,12 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                 ),
                 SizedBox(height: 20),
                 Text(
-                  "Please enter your New password",
+                  "Please enter your email to reset the password",
                   style: TextStyle(color: Colors.grey),
                 ),
                 SizedBox(height: 25),
                 Text(
-                  "Enter New Password",
+                  "Your Email",
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
                 SizedBox(height: 10),
@@ -78,56 +77,35 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                   key: _formKey,
                   child: Column(
                     children: [
-                      SizedBox(height: 10,),
+SizedBox(height: 10,),
                       Container(
                         decoration: BoxDecoration(
                           border: Border.all(color: Colors.grey),
                           borderRadius: BorderRadius.circular(5),
                         ),
                         child: TextField(
-                          controller: resetPassword,
+                          controller: emailController,
                           decoration: InputDecoration(
-                            labelText: 'Enter new password',
+                            labelText: 'Email Address',
                             labelStyle: TextStyle(color: Colors.grey),
+                            prefixIcon: Icon(Icons.email_outlined, color: Colors.grey),
                             border: InputBorder.none,
                           ),
                         ),
                       ),
-                      SizedBox(height: 20),
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          "Confirm Password",
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                      SizedBox(height: 20),
-                      Container(
-                        decoration: BoxDecoration(
-                          border: Border.all(color: Colors.grey),
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                        child: TextField(
-                          controller: reEnterPassword,
-                          decoration: InputDecoration(
-                            labelText: 'Re-enter new password',
-                            labelStyle: TextStyle(color: Colors.grey),
-                            border: InputBorder.none,
-                          ),
-                        ),
-                      ),
+                      SizedBox(height: 10),
                     ],
                   ),
                 ),
-                SizedBox(height: 60),
+                SizedBox(height: 70),
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
                     onPressed: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage()));
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => ResetPasswordPage()));
                     },
                     child: Text(
-                      'Update Password',
+                      'Reset Password',
                       style: TextStyle(fontSize: 20),
                     ),
                     style: ElevatedButton.styleFrom(
@@ -140,7 +118,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                     ),
                   ),
                 ),
-                SizedBox(height: 15),
+                SizedBox(height: 20),
               ],
             ),
           ),

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'db/task.dart';
-import 'db/user.dart';
+import '../bottom_nav.dart';
+import '../db/task.dart';
+import '../db/user.dart';
 
 class AddTaskPage extends StatefulWidget {
   final User user;
@@ -21,6 +22,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      bottomNavigationBar: BottomNav(user: widget.user, index: 1),
       appBar: AppBar(
         title: const Text("Add Task"),
       ),

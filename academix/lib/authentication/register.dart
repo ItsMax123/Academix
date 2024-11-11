@@ -1,23 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:academix/register.dart';
-import 'package:academix/forget_password.dart';
-import 'package:academix/home.dart';
+import 'package:academix/authentication/login.dart';
 
-import 'db/task.dart';
-import 'db/user.dart';
+import '../db/task.dart';
+import '../db/user.dart';
+import '../home/home.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+class RegisterPage extends StatefulWidget {
+  const RegisterPage({super.key});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<RegisterPage> createState() => _RegisterPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _RegisterPageState extends State<RegisterPage> {
   final _formKey = GlobalKey<FormState>();
+  final TextEditingController firstNameController = TextEditingController();
+  final TextEditingController lastNameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  bool rememberPassword = true;
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +26,7 @@ class _LoginPageState extends State<LoginPage> {
       body: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.only(left: 60.0, top: 45, right: 60.0),
+            padding: const EdgeInsets.only(left: 60.0, top: 30, right: 60.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -34,21 +34,21 @@ class _LoginPageState extends State<LoginPage> {
                 const Padding(
                   padding: EdgeInsets.only(left: 10),
                   child: Text(
-                    'Academix',
+                    'Welcome To Academix',
                     style: TextStyle(
                       fontSize: 40,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                 ),
-                const SizedBox(height: 60),
+                const SizedBox(height: 25),
                 Padding(
                   padding: const EdgeInsets.only(left: 45),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Login',
+                        'Register',
                         style: TextStyle(
                           fontSize: 25,
                           color: Colors.blue[800],
@@ -63,11 +63,29 @@ class _LoginPageState extends State<LoginPage> {
                     ],
                   ),
                 ),
-                const SizedBox(height: 30),
+                const SizedBox(height: 25),
                 Form(
                   key: _formKey,
                   child: Column(
                     children: [
+                      TextField(
+                        controller: firstNameController,
+                        decoration: const InputDecoration(
+                          labelText: 'First Name',
+                          labelStyle: TextStyle(color: Colors.grey),
+                          prefixIcon: Icon(Icons.person, color: Colors.grey),
+                        ),
+                      ),
+                      const SizedBox(height: 10),
+                      TextField(
+                        controller: lastNameController,
+                        decoration: const InputDecoration(
+                          labelText: 'Last Name',
+                          labelStyle: TextStyle(color: Colors.grey),
+                          prefixIcon: Icon(Icons.person, color: Colors.grey),
+                        ),
+                      ),
+                      const SizedBox(height: 10),
                       TextField(
                         controller: emailController,
                         decoration: const InputDecoration(
@@ -77,7 +95,7 @@ class _LoginPageState extends State<LoginPage> {
                               Icon(Icons.email_outlined, color: Colors.grey),
                         ),
                       ),
-                      const SizedBox(height: 30),
+                      const SizedBox(height: 10),
                       TextField(
                         controller: passwordController,
                         obscureText: true,
@@ -92,38 +110,6 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ],
                   ),
-                ),
-                const SizedBox(height: 45),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      children: [
-                        Checkbox(
-                          value: rememberPassword,
-                          onChanged: (value) {
-                            setState(() {
-                              rememberPassword = value ?? false;
-                            });
-                          },
-                        ),
-                        const Text('Remember password',
-                            style: TextStyle(fontSize: 18)),
-                      ],
-                    ),
-                    TextButton(
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const ForgetPasswordPage()));
-                      },
-                      child: Text(
-                        'Forget password',
-                        style: TextStyle(color: Colors.blue[600], fontSize: 18),
-                      ),
-                    ),
-                  ],
                 ),
                 const SizedBox(height: 70),
                 SizedBox(
@@ -191,23 +177,26 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ),
                     child: const Text(
-                      'Login',
+                      'Sign Up',
                       style: TextStyle(fontSize: 20),
                     ),
                   ),
                 ),
-                const SizedBox(height: 40),
+                const SizedBox(height: 20),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Text("Don’t have an account?"),
+                    const Text("Don’t have an account? "),
                     GestureDetector(
                       onTap: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => const RegisterPage()));
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const LoginPage()),
+                        );
                       },
                       child: Text(
-                        'Sign Up',
+                        'Sign In',
                         style: TextStyle(color: Colors.purple[900]),
                       ),
                     ),
