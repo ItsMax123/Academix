@@ -28,11 +28,21 @@ class _AddTaskPageState extends State<AddTaskPage> {
       body: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.only(left: 60.0, top: 30, right: 60.0),
+            padding: const EdgeInsets.only(left: 25.0, top: 30, right: 25.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                SizedBox(height: 30),
+                Align(
+                  alignment: Alignment.topLeft,
+                  child: IconButton(
+                    icon: Icon(Icons.arrow_back, color: Colors.grey),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                  ),
+                ),
                 const SizedBox(height: 45),
                 Padding(
                   padding: const EdgeInsets.only(left: 30),
@@ -156,7 +166,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
                               color: Colors.grey.withOpacity(0.5),
                               spreadRadius: 2,
                               blurRadius: 5,
-                              offset: Offset(0, 3), // changes position of shadow
+                              offset: Offset(0, 3),
                             ),
                           ],
                         ),
@@ -165,7 +175,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
                           child: ElevatedButton(
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.white,
-                              shadowColor: Colors.transparent, // Remove shadow from the button itself
+                              shadowColor: Colors.transparent,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(5),
                               ),
