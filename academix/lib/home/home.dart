@@ -58,7 +58,7 @@ class _HomePageState extends State<HomePage> {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    const SizedBox(height: 10),
+                    const SizedBox(height: 85),
                     const Text(
                       "Hi User.",
                       style:
@@ -78,29 +78,29 @@ class _HomePageState extends State<HomePage> {
                 ),
               ],
             ),
-            const SizedBox(height: 30),
+            const SizedBox(height: 50),
             SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  buildCircularDateWidget(previousDay, Colors.grey),
+                  buildOvalDateWidget(previousDay, Colors.grey),
                   const SizedBox(width: 20),
-                  buildCircularDateWidget(currentDay, Colors.purple),
+                  buildOvalDateWidget(currentDay, Colors.deepPurple),
                   const SizedBox(width: 20),
-                  buildCircularDateWidget(nextDay1, Colors.grey),
+                  buildOvalDateWidget(nextDay1, Colors.grey),
                   const SizedBox(width: 20),
-                  buildCircularDateWidget(nextDay2, Colors.grey),
+                  buildOvalDateWidget(nextDay2, Colors.grey),
                 ],
               ),
             ),
-            const SizedBox(height: 30),
+            const SizedBox(height: 50),
             // Monthly Preview Title
             const Text(
               "Monthly Preview",
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 30),
             Expanded(
               child: Column(
                 children: [
@@ -204,12 +204,16 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget buildCircularDateWidget(DateTime date, Color color) {
+  Widget buildOvalDateWidget(DateTime date, Color color) {
     return Column(
       children: [
-        CircleAvatar(
-          radius: 30,
-          backgroundColor: color,
+        Container(
+          width: 60, // Narrow width for vertical oval
+          height: 90, // Taller height for vertical oval
+          decoration: BoxDecoration(
+            color: color,
+            borderRadius: BorderRadius.circular(45), // Large radius for smooth oval shape
+          ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -217,15 +221,18 @@ class _HomePageState extends State<HomePage> {
                 getDayNumber(date),
                 style: const TextStyle(
                   color: Colors.white,
-                  fontSize: 18,
+                  fontSize: 20,
                   fontWeight: FontWeight.bold,
+                  letterSpacing: 1.0,
                 ),
               ),
+              const SizedBox(height: 4),
               Text(
                 getDayName(date),
                 style: const TextStyle(
                   color: Colors.white,
                   fontSize: 14,
+                  fontWeight: FontWeight.w500,
                 ),
               ),
             ],
@@ -234,4 +241,7 @@ class _HomePageState extends State<HomePage> {
       ],
     );
   }
+
+
+
 }
