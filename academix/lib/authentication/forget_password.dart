@@ -19,12 +19,12 @@ class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
       body: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.only(left: 60.0, top: 10.0, right: 60.0),
+            padding: const EdgeInsets.only(left: 25.0, top: 10.0, right: 25.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(height: 50),
+                SizedBox(height: 60),
                 // Back button
                 Align(
                   alignment: Alignment.topLeft,
@@ -35,7 +35,7 @@ class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
                     },
                   ),
                 ),
-                SizedBox(height: 30),
+                SizedBox(height: 45),
                 Padding(
                   padding: EdgeInsets.only(left: 20),
                   child: Column(
@@ -57,7 +57,7 @@ class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
                     ],
                   ),
                 ),
-                SizedBox(height: 50),
+                SizedBox(height: 60),
                 Text(
                   "Forgot password",
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),

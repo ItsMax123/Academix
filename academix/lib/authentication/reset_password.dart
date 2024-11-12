@@ -20,7 +20,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
       body: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.only(left: 60.0, top: 10.0, right: 60.0),
+            padding: const EdgeInsets.only(left: 25.0, top: 10.0, right: 25.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -58,7 +58,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                     ],
                   ),
                 ),
-                SizedBox(height: 50),
+                SizedBox(height: 60),
                 Text(
                   "Forgot password",
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
