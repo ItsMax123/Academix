@@ -22,7 +22,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
     return Scaffold(
       backgroundColor: Colors.white,
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 60.0, vertical: 20.0),
+        padding: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 50.0),
         child: Column(
           children: [
             const Icon(
@@ -30,7 +30,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
               size: 100,
               color: Colors.grey,
             ),
-            SizedBox(height: 20),
+            SizedBox(height: 60),
             Form(
               key: _formKey,
               child: Column(
@@ -146,7 +146,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 ],
               ),
             ),
-            SizedBox(height: 50),
+            SizedBox(height: 75),
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
