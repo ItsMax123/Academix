@@ -26,7 +26,7 @@ class _RegisterPageState extends State<RegisterPage> {
       body: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.only(left: 60.0, top: 30, right: 60.0),
+            padding: const EdgeInsets.only(left: 25.0, top: 45, right: 25.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -41,7 +41,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     ),
                   ),
                 ),
-                const SizedBox(height: 25),
+                const SizedBox(height: 40),
                 Padding(
                   padding: const EdgeInsets.only(left: 45),
                   child: Column(
@@ -63,7 +63,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     ],
                   ),
                 ),
-                const SizedBox(height: 25),
+                const SizedBox(height: 45),
                 Form(
                   key: _formKey,
                   child: Column(

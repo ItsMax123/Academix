@@ -26,7 +26,7 @@ class _LoginPageState extends State<LoginPage> {
       body: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.only(left: 60.0, top: 45, right: 60.0),
+            padding: const EdgeInsets.only(left: 25.0, top: 45, right: 25.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -63,7 +63,7 @@ class _LoginPageState extends State<LoginPage> {
                     ],
                   ),
                 ),
-                const SizedBox(height: 30),
+                const SizedBox(height: 70),
                 Form(
                   key: _formKey,
                   child: Column(
@@ -93,7 +93,7 @@ class _LoginPageState extends State<LoginPage> {
                     ],
                   ),
                 ),
-                const SizedBox(height: 45),
+                const SizedBox(height: 70),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -107,25 +107,32 @@ class _LoginPageState extends State<LoginPage> {
                             });
                           },
                         ),
-                        const Text('Remember password',
-                            style: TextStyle(fontSize: 18)),
+                        const Text(
+                          'Remember\npassword', // Separate words onto different lines
+                          style: TextStyle(fontSize: 25),
+                          textAlign: TextAlign.center, // Center text within its space
+                        ),
                       ],
                     ),
                     TextButton(
                       onPressed: () {
                         Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const ForgetPasswordPage()));
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const ForgetPasswordPage(),
+                          ),
+                        );
                       },
                       child: Text(
-                        'Forget password',
-                        style: TextStyle(color: Colors.blue[600], fontSize: 18),
+                        'Forget\npassword', // Separate words onto different lines
+                        style: TextStyle(color: Colors.blue[600], fontSize: 25),
+                        textAlign: TextAlign.center, // Center text if needed
                       ),
                     ),
                   ],
                 ),
-                const SizedBox(height: 70),
+
+                const SizedBox(height: 65),
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
