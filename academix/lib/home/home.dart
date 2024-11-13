@@ -32,6 +32,7 @@ class _HomePageState extends State<HomePage> {
     DateTime nextDay2 = today.add(const Duration(days: 2));
 
     return Scaffold(
+      backgroundColor: Colors.white,
       bottomNavigationBar: BottomNav(user: widget.user, index: 0),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 20.0),
@@ -84,13 +85,13 @@ class _HomePageState extends State<HomePage> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  buildOvalDateWidget(previousDay, Colors.grey),
+                  buildOvalDateWidget(previousDay, Colors.white),
                   const SizedBox(width: 20),
-                  buildOvalDateWidget(currentDay, Colors.deepPurple),
+                  buildOvalDateWidget(currentDay, Colors.purple.shade400),
                   const SizedBox(width: 20),
-                  buildOvalDateWidget(nextDay1, Colors.grey),
+                  buildOvalDateWidget(nextDay1, Colors.white),
                   const SizedBox(width: 20),
-                  buildOvalDateWidget(nextDay2, Colors.grey),
+                  buildOvalDateWidget(nextDay2, Colors.white),
                 ],
               ),
             ),
@@ -108,9 +109,13 @@ class _HomePageState extends State<HomePage> {
                     children: [
                       Expanded(
                         child: Container(
-                          height: 120,
+                          height: 130,
                           decoration: BoxDecoration(
-                            color: Colors.teal[200],
+                            gradient: LinearGradient(
+                            colors: [Colors.pink, Colors.purple],
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                            ),
                             borderRadius: BorderRadius.circular(10),
                           ),
                           child: const Center(
@@ -129,9 +134,13 @@ class _HomePageState extends State<HomePage> {
                       const SizedBox(width: 10),
                       Expanded(
                         child: Container(
-                          height: 80,
+                          height: 100,
                           decoration: BoxDecoration(
-                            color: Colors.orange.shade200,
+                            gradient: LinearGradient(
+                              colors: [Colors.orangeAccent, Colors.red],
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+                            ),
                             borderRadius: BorderRadius.circular(10),
                           ),
                           child: const Center(
@@ -154,9 +163,13 @@ class _HomePageState extends State<HomePage> {
                     children: [
                       Expanded(
                         child: Container(
-                          height: 80,
+                          height: 100,
                           decoration: BoxDecoration(
-                            color: Colors.pink[200],
+                            gradient: LinearGradient(
+                              colors: [Colors.green, Colors.tealAccent],
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+                            ),
                             borderRadius: BorderRadius.circular(10),
                           ),
                           child: const Center(
@@ -175,9 +188,13 @@ class _HomePageState extends State<HomePage> {
                       const SizedBox(width: 10),
                       Expanded(
                         child: Container(
-                          height: 120,
+                          height: 145,
                           decoration: BoxDecoration(
-                            color: Colors.lightBlueAccent[200],
+                            gradient: LinearGradient(
+                              colors: [Colors.blue, Colors.purple],
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+                            ),
                             borderRadius: BorderRadius.circular(10),
                           ),
                           child: const Center(
@@ -208,11 +225,19 @@ class _HomePageState extends State<HomePage> {
     return Column(
       children: [
         Container(
-          width: 60, // Narrow width for vertical oval
-          height: 90, // Taller height for vertical oval
+          width: 70,
+          height: 100,
           decoration: BoxDecoration(
             color: color,
-            borderRadius: BorderRadius.circular(45), // Large radius for smooth oval shape
+            borderRadius: BorderRadius.circular(45),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.2),
+                spreadRadius: 2,
+                blurRadius: 10,
+                offset: Offset(3, 2),
+              ),
+            ],
           ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -220,7 +245,7 @@ class _HomePageState extends State<HomePage> {
               Text(
                 getDayNumber(date),
                 style: const TextStyle(
-                  color: Colors.white,
+                  color: Colors.black,
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
                   letterSpacing: 1.0,
@@ -230,7 +255,7 @@ class _HomePageState extends State<HomePage> {
               Text(
                 getDayName(date),
                 style: const TextStyle(
-                  color: Colors.white,
+                  color: Colors.black,
                   fontSize: 14,
                   fontWeight: FontWeight.w500,
                 ),
