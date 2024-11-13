@@ -65,6 +65,9 @@ class _CalendarPageState extends State<CalendarPage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.purple[300],
+        foregroundColor: Colors.white,
+        shape: CircleBorder(),
         onPressed: () {
           Navigator.push(
             context,
@@ -75,7 +78,7 @@ class _CalendarPageState extends State<CalendarPage> {
             setState(() {});
           });
         },
-        child: const Icon(Icons.add),
+        child: const Icon(Icons.add, size: 35),
       ),
     );
   }
