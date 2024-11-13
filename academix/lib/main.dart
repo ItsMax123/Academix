@@ -1,7 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:academix/authentication/login.dart';
+import 'package:firebase_core/firebase_core.dart';
 
-void main() {
+import 'page_handler.dart';
+import 'authentication/login.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: const FirebaseOptions(
+      apiKey: "AIzaSyCXQWSezZa4Bs0ZQUnv0CrnC09MsrkOx0s",
+      appId: "938356508831",
+      messagingSenderId: "1:938356508831:android:8eba02ce3446e3a15ffaaa",
+      projectId: "academix-bc5e6",
+    ),
+  );
   runApp(const AcademixApp());
 }
 
@@ -15,7 +27,7 @@ class AcademixApp extends StatefulWidget {
 class _AcademixAppState extends State<AcademixApp> {
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: LoginPage(),
     );

@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import '../bottom_nav.dart';
-import '../db/task.dart';
 import '../db/user.dart';
+import '../bottom_nav.dart';
 
 class AddTaskPage extends StatefulWidget {
   final User user;
@@ -19,12 +18,14 @@ class _AddTaskPageState extends State<AddTaskPage> {
   final TextEditingController descriptionController = TextEditingController();
 
   String type = "Other";
-  DateTime date = DateTime.now();
+  int year = DateTime.now().year;
+  int month = DateTime.now().month;
+  int day = DateTime.now().day;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      bottomNavigationBar: BottomNav(user: widget.user, index: 1),
       body: Column(
         children: [
           Padding(
@@ -183,13 +184,15 @@ class _AddTaskPageState extends State<AddTaskPage> {
                             onPressed: () async {
                               final DateTime? picked = await showDatePicker(
                                 context: context,
-                                initialDate: date,
+                                initialDate: DateTime(year, month, day),
                                 firstDate: DateTime.now().subtract(const Duration(days: 999)),
                                 lastDate: DateTime.now().add(const Duration(days: 999)),
                               );
-                              if (picked != null && picked != date) {
+                              if (picked != null) {
                                 setState(() {
-                                  date = picked;
+                                  year = picked.year;
+                                  month = picked.month;
+                                  day = picked.day;
                                 });
                               }
                             },
@@ -199,7 +202,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
                                 Icon(Icons.calendar_today, color: Colors.grey), // Calendar icon
                                 SizedBox(width: 8), // Spacing between icon and text
                                 Text(
-                                  DateFormat('MMMM d, yyyy').format(date),
+                                  DateFormat('MMMM d, yyyy').format(DateTime(year, month, day)),
                                   style: TextStyle(color: Colors.black),
                                 ),
                               ],
@@ -210,7 +213,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
                     ],
                   ),
                 ),
-                SizedBox(height: 100),
+                const SizedBox(height: 100),
                 Align(
                   alignment: Alignment.bottomRight,
                   child: SizedBox(
@@ -218,8 +221,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
                     height: 50,
                     child: ElevatedButton(
                       onPressed: () {
-                        widget.user.tasks.add(Task(titleController.text,
-                            descriptionController.text, type, date, false));
+                        widget.user.addTask(titleController.text, descriptionController.text, type, year, month, day);
                         Navigator.pop(context);
                       },
                       style: ElevatedButton.styleFrom(

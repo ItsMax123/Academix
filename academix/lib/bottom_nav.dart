@@ -1,8 +1,7 @@
-import 'package:academix/calendar/calendar.dart';
+import 'package:academix/page_handler.dart';
 import 'package:flutter/material.dart';
+
 import 'db/user.dart';
-import 'home/home.dart';
-import 'profile/profile.dart';
 
 class BottomNav extends StatefulWidget {
   final User user;
@@ -17,6 +16,7 @@ class BottomNav extends StatefulWidget {
 class _BottomNavState extends State<BottomNav> {
   @override
   Widget build(BuildContext context) {
+    UserPageHandler pageHandler = UserPageHandler(context, widget.user);
     return BottomNavigationBar(
       items: const <BottomNavigationBarItem>[
         BottomNavigationBarItem(
@@ -44,40 +44,16 @@ class _BottomNavState extends State<BottomNav> {
       onTap: (int index) {
         switch (index) {
           case 0:
-            Navigator.pushAndRemoveUntil(
-              context,
-              MaterialPageRoute(builder: (_) => HomePage(user: widget.user)),
-              (_) {
-                return false;
-              },
-            );
+            pageHandler.toHome();
             break;
           case 1:
-            Navigator.pushAndRemoveUntil(
-              context,
-              MaterialPageRoute(builder: (_) => CalendarPage(user: widget.user)),
-              (_) {
-                return false;
-              },
-            );
+            pageHandler.toCalendar();
             break;
           case 2:
-            Navigator.pushAndRemoveUntil(
-              context,
-              MaterialPageRoute(builder: (_) => CalendarPage(user: widget.user)),
-              (_) {
-                return false;
-              },
-            );
+            pageHandler.toView();
             break;
           case 3:
-            Navigator.pushAndRemoveUntil(
-              context,
-              MaterialPageRoute(builder: (_) => ProfilePage(user: widget.user)),
-              (_) {
-                return false;
-              },
-            );
+            pageHandler.toProfile();
             break;
         }
       },

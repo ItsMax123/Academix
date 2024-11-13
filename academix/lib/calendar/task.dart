@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import '../db/user.dart';
 import '../bottom_nav.dart';
 import '../db/task.dart';
-import '../db/user.dart';
 
 class TaskPage extends StatefulWidget {
   final User user;
@@ -176,13 +176,15 @@ class _TaskPageState extends State<TaskPage> {
                             onPressed: () async {
                               final DateTime? picked = await showDatePicker(
                                 context: context,
-                                initialDate: widget.task.date,
+                                initialDate: DateTime(widget.task.year, widget.task.month, widget.task.day),
                                 firstDate: DateTime.now().subtract(const Duration(days: 999)),
                                 lastDate: DateTime.now().add(const Duration(days: 999)),
                               );
-                              if (picked != null && picked != widget.task.date) {
+                              if (picked != null) {
                                 setState(() {
-                                  widget.task.date = picked;
+                                  widget.task.year = picked.year;
+                                  widget.task.month = picked.month;
+                                  widget.task.day = picked.day;
                                 });
                               }
                             },
@@ -192,7 +194,7 @@ class _TaskPageState extends State<TaskPage> {
                                 const Icon(Icons.calendar_today, color: Colors.grey),
                                 const SizedBox(width: 8),
                                 Text(
-                                  DateFormat('MMMM d, yyyy').format(widget.task.date),
+                                  DateFormat('MMMM d, yyyy').format(DateTime(widget.task.year, widget.task.month, widget.task.day)),
                                   style: const TextStyle(color: Colors.black),
                                 ),
                               ],
@@ -224,7 +226,7 @@ class _TaskPageState extends State<TaskPage> {
                           height: 50,
                           child: ElevatedButton(
                             onPressed: () {
-                              widget.user.tasks.remove(widget.task);
+                              widget.user.removeTask(widget.task);
                               Navigator.pop(context);
                             },
                             style: ElevatedButton.styleFrom(
