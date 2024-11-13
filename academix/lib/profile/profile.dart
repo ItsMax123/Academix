@@ -23,6 +23,7 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: BottomNav(user: widget.user, index: 3),
+      backgroundColor: Colors.white,
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 50.0),
         child: Column(
