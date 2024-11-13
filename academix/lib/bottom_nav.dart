@@ -1,8 +1,10 @@
 import 'package:academix/calendar/calendar.dart';
+import 'package:academix/calendar/view_week_tasks.dart';
 import 'package:flutter/material.dart';
 import 'db/user.dart';
 import 'home/home.dart';
 import 'profile/profile.dart';
+import '';
 
 class BottomNav extends StatefulWidget {
   final User user;
@@ -64,7 +66,7 @@ class _BottomNavState extends State<BottomNav> {
           case 2:
             Navigator.pushAndRemoveUntil(
               context,
-              MaterialPageRoute(builder: (_) => CalendarPage(user: widget.user)),
+              MaterialPageRoute(builder: (_) => ViewWeekTasks(user: widget.user)),
               (_) {
                 return false;
               },
