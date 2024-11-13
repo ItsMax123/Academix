@@ -15,4 +15,9 @@ class User {
     }
     return tasks;
   }
+  List<Task> getTasksForWeek(DateTime activeDate) {
+    DateTime startOfWeek = activeDate.subtract(Duration(days: activeDate.weekday - 1));
+    DateTime endOfWeek = startOfWeek.add(const Duration(days: 6));
+    return tasks.where((task) => task.date.isAfter(startOfWeek.subtract(Duration(days: 1))) && task.date.isBefore(endOfWeek.add(Duration(days: 1)))).toList();
+  }
 }

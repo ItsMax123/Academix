@@ -18,6 +18,7 @@ class _TaskPageState extends State<TaskPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       bottomNavigationBar: BottomNav(user: widget.user, index: 1),
       body: Column(
         children: [
@@ -217,30 +218,52 @@ class _TaskPageState extends State<TaskPage> {
                         ],
                       ),
                       const SizedBox(height: 50),
-                      Align(
-                        alignment: Alignment.bottomRight,
-                        child: SizedBox(
-                          width: 180,
-                          height: 50,
-                          child: ElevatedButton(
-                            onPressed: () {
-                              widget.user.tasks.remove(widget.task);
-                              Navigator.pop(context);
-                            },
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.red[100],
-                              foregroundColor: Colors.red[700],
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(30),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          SizedBox(
+                            width: 170,
+                            height: 50,
+                            child: ElevatedButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.blue[100],
+                                foregroundColor: Colors.indigo[500],
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(30),
+                                ),
+                              ),
+                              child: const Text(
+                                'Save Task',
+                                style: TextStyle(fontSize: 20),
                               ),
                             ),
-                            child: const Text(
-                              'Delete Task',
-                              style: TextStyle(fontSize: 20),
+                          ),
+                          SizedBox(
+                            width: 170,
+                            height: 50,
+                            child: ElevatedButton(
+                              onPressed: () {
+                                widget.user.tasks.remove(widget.task);
+                                Navigator.pop(context);
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.red[100],
+                                foregroundColor: Colors.red[700],
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(30),
+                                ),
+                              ),
+                              child: const Text(
+                                'Delete Task',
+                                style: TextStyle(fontSize: 20),
+                              ),
                             ),
                           ),
-                        ),
-                      ),
+                        ],
+                      )
                     ],
                   ),
                 ),

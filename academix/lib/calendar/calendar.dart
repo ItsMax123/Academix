@@ -22,6 +22,7 @@ class _CalendarPageState extends State<CalendarPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       bottomNavigationBar: BottomNav(user: widget.user, index: 1),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 30),
@@ -64,6 +65,9 @@ class _CalendarPageState extends State<CalendarPage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.purple[300],
+        foregroundColor: Colors.white,
+        shape: CircleBorder(),
         onPressed: () {
           Navigator.push(
             context,
@@ -74,7 +78,7 @@ class _CalendarPageState extends State<CalendarPage> {
             setState(() {});
           });
         },
-        child: const Icon(Icons.add),
+        child: const Icon(Icons.add, size: 35),
       ),
     );
   }
