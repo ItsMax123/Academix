@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import '../db/user.dart';
+import '../page_handler.dart';
+import '../bottom_nav.dart';
 
 class EditProfilePage extends StatefulWidget {
   final User user;
@@ -19,8 +21,9 @@ class _EditProfilePageState extends State<EditProfilePage> {
 
   @override
   Widget build(BuildContext context) {
+    UserPageHandler pageHandler = UserPageHandler(context, widget.user);
     return Scaffold(
-      backgroundColor: Colors.white,
+      bottomNavigationBar: BottomNav(user: widget.user, index: 3),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 50.0),
         child: Column(
@@ -151,7 +154,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: () {
-                  // Navigator.push(context, MaterialPageRoute(builder: (context)=> ))
+                  // TODO Edit profile
+                  pageHandler.toProfile();
                 },
                 child: Text(
                   'Edit Profile',

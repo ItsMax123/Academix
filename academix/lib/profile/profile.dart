@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:academix/profile/edit_profile.dart';
-import '../bottom_nav.dart';
 import '../db/user.dart';
+import '../page_handler.dart';
+import '../bottom_nav.dart';
 
 class ProfilePage extends StatefulWidget {
   final User user;
@@ -21,9 +21,9 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
+    UserPageHandler pageHandler = UserPageHandler(context, widget.user);
     return Scaffold(
       bottomNavigationBar: BottomNav(user: widget.user, index: 3),
-      backgroundColor: Colors.white,
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 50.0),
         child: Column(
@@ -148,7 +148,7 @@ class _ProfilePageState extends State<ProfilePage> {
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context)=> EditProfilePage(user: widget.user)));
+                  pageHandler.toEditProfile();
                 },
                 child: Text(
                   'Edit Profile',

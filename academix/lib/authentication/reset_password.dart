@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:academix/authentication/login.dart';
+
+import '../page_handler.dart';
 
 class ResetPasswordPage extends StatefulWidget {
   const ResetPasswordPage({super.key});
@@ -15,6 +16,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
 
   @override
   Widget build(BuildContext context) {
+    PageHandler pageHandler = PageHandler(context);
     return Scaffold(
       backgroundColor: Colors.white,
       body: Column(
@@ -124,7 +126,8 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                   width: double.infinity,
                   child: ElevatedButton(
                     onPressed: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage()));
+                      // TODO Reset Password?
+                      pageHandler.toLogin();
                     },
                     child: Text(
                       'Update Password',

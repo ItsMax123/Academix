@@ -1,10 +1,9 @@
-import 'package:academix/calendar/task.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'add_task.dart';
+import '../db/user.dart';
+import '../page_handler.dart';
 import '../bottom_nav.dart';
 import '../db/task.dart';
-import '../db/user.dart';
 
 class CalendarPage extends StatefulWidget {
   final User user;
@@ -21,6 +20,7 @@ class _CalendarPageState extends State<CalendarPage> {
 
   @override
   Widget build(BuildContext context) {
+    UserPageHandler pageHandler = UserPageHandler(context, widget.user);
     return Scaffold(
       backgroundColor: Colors.white,
       bottomNavigationBar: BottomNav(user: widget.user, index: 1),
@@ -60,7 +60,13 @@ class _CalendarPageState extends State<CalendarPage> {
             ),
             const Divider(),
             calendar(),
-            tasks(),
+            Expanded(
+              child: ListView(
+                children: [
+                  for (Task task in pageHandler.user.getTasksOn(active)) taskListItem(pageHandler, task)
+                ],
+              ),
+            ),
           ],
         ),
       ),
@@ -69,12 +75,7 @@ class _CalendarPageState extends State<CalendarPage> {
         foregroundColor: Colors.white,
         shape: CircleBorder(),
         onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => AddTaskPage(user: widget.user),
-            ),
-          ).then((_) {
+          pageHandler.toAddTask().then((_) {
             setState(() {});
           });
         },
@@ -119,7 +120,7 @@ class _CalendarPageState extends State<CalendarPage> {
 
   Widget dayGridItem(DateTime date) {
     List<Widget> circles = [];
-    for (Task task in widget.user.getTasksAt(date)) {
+    for (Task task in widget.user.getTasksOn(date)) {
       if (task.completed) continue;
       circles.add(Container(
         margin: const EdgeInsets.symmetric(horizontal: 1),
@@ -160,17 +161,7 @@ class _CalendarPageState extends State<CalendarPage> {
     );
   }
 
-  Expanded tasks() {
-    return Expanded(
-      child: ListView(
-        children: [
-          for (Task task in widget.user.getTasksAt(active)) taskListItem(task)
-        ],
-      ),
-    );
-  }
-
-  Widget taskListItem(Task task) {
+  Widget taskListItem(UserPageHandler pageHandler, Task task) {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 5),
       decoration: BoxDecoration(
@@ -189,12 +180,7 @@ class _CalendarPageState extends State<CalendarPage> {
       ),
       child: ElevatedButton(
         onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => TaskPage(user: widget.user, task: task),
-            ),
-          ).then((_) {
+          pageHandler.toTask(task).then((_) {
             setState(() {});
           });
         },

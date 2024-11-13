@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import '../bottom_nav.dart';
 import '../db/user.dart';
+import '../page_handler.dart';
+import '../bottom_nav.dart';
 
 class HomePage extends StatefulWidget {
   final User user;
@@ -25,6 +26,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    UserPageHandler pageHandler = UserPageHandler(context, widget.user);
     // Calculate days for display
     DateTime previousDay = today.subtract(const Duration(days: 1));
     DateTime currentDay = today;
