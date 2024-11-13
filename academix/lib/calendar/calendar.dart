@@ -22,6 +22,7 @@ class _CalendarPageState extends State<CalendarPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       bottomNavigationBar: BottomNav(user: widget.user, index: 1),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 30),

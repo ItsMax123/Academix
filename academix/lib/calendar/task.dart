@@ -18,6 +18,7 @@ class _TaskPageState extends State<TaskPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       bottomNavigationBar: BottomNav(user: widget.user, index: 1),
       body: Column(
         children: [
