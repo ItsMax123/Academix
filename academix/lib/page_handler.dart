@@ -45,11 +45,11 @@ class PageHandler {
     );
   }
 
-  Future<void> toResetPassword() {
+  Future<void> toResetPassword(String email) {
     return Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => const ResetPasswordPage(),
+        builder: (context) =>  ResetPasswordPage(email: email),
       ),
     );
   }

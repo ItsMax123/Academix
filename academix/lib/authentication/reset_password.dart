@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-
+import '../db/user.dart';
 import '../page_handler.dart';
 
 class ResetPasswordPage extends StatefulWidget {
-  const ResetPasswordPage({super.key});
+  final String email;
+  const ResetPasswordPage({super.key, required this.email});
 
   @override
   State<ResetPasswordPage> createState() => _ResetPasswordPageState();
@@ -92,7 +93,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                           controller: resetPassword,
                           validator: (value) {
                             if (value == null || value.isEmpty) {
-                              return 'Please enter your password ';
+                              return 'Please enter your new password ';
                             }
                             return null;
                           },
@@ -139,9 +140,25 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
-                    onPressed: () {
+                    onPressed: () async {
                       if (_formKey.currentState!.validate()) {
-                        pageHandler.toLogin();
+                        if (resetPassword.text == reEnterPassword.text) {
+                          bool success = await User.updatePassword(widget.email, resetPassword.text);
+                          if (success) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text("Password updated successfully!")),
+                            );
+                            pageHandler.toLogin();
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text("Error updating password. Please try again.")),
+                            );
+                          }
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text("Passwords do not match. Please try again.")),
+                          );
+                        }
                       }
                     },
                     child: Text(
