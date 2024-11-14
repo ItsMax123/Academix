@@ -194,7 +194,7 @@ class _TaskPageState extends State<TaskPage> {
                                 const Icon(Icons.calendar_today, color: Colors.grey),
                                 const SizedBox(width: 8),
                                 Text(
-                                  DateFormat('MMMM d, yyyy').format(widget.task.date),
+                                  DateFormat('MMMM d, yyyy').format(DateTime(widget.task.year, widget.task.month, widget.task.day)),
                                   style: const TextStyle(color: Colors.black),
                                 ),
                               ],

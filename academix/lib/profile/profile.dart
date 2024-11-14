@@ -31,7 +31,7 @@ class _ProfilePageState extends State<ProfilePage> {
             const Icon(
               Icons.account_circle,
               size: 100,
-              color: Colors.grey,
+              color: Colors.black,
             ),
             SizedBox(height: 60),
             Form(
@@ -57,7 +57,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       controller: firstNameController,
                       enabled: false,
                       decoration: InputDecoration(
-                        labelText: 'First Name',
+                        labelText: '${widget.user.firstName}',
                         labelStyle: TextStyle(color: Colors.grey),
                         border: InputBorder.none,
                         contentPadding: EdgeInsets.symmetric(horizontal: 10),
@@ -82,7 +82,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       controller: lastNameController,
                       enabled: false,
                       decoration: InputDecoration(
-                        labelText: 'Last Name',
+                        labelText: '${widget.user.lastName}',
                         labelStyle: TextStyle(color: Colors.grey),
                         border: InputBorder.none,
                         contentPadding: EdgeInsets.symmetric(horizontal: 10),
@@ -107,7 +107,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       controller: emailController,
                       enabled: false,
                       decoration: InputDecoration(
-                        labelText: 'Email Address',
+                        labelText: '${widget.user.email}',
                         labelStyle: TextStyle(color: Colors.grey),
                         border: InputBorder.none,
                         contentPadding: EdgeInsets.symmetric(horizontal: 10),
@@ -133,7 +133,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       enabled: false,
                       obscureText: true,
                       decoration: InputDecoration(
-                        labelText: 'Password',
+                        labelText: '${widget.user.password}',
                         labelStyle: TextStyle(color: Colors.grey),
                         border: InputBorder.none,
                         contentPadding: EdgeInsets.symmetric(horizontal: 10),

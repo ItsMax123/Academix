@@ -39,7 +39,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                 ),
-                const SizedBox(height: 60),
+                const SizedBox(height: 50),
                 Padding(
                   padding: const EdgeInsets.only(left: 45),
                   child: Column(
@@ -61,13 +61,19 @@ class _LoginPageState extends State<LoginPage> {
                     ],
                   ),
                 ),
-                const SizedBox(height: 70),
+                const SizedBox(height: 60),
                 Form(
                   key: _formKey,
                   child: Column(
                     children: [
-                      TextField(
+                      TextFormField(
                         controller: emailController,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter your email Address';
+                          }
+                          return null;
+                        },
                         decoration: const InputDecoration(
                           labelText: 'Email Address',
                           labelStyle: TextStyle(color: Colors.grey),
@@ -75,10 +81,16 @@ class _LoginPageState extends State<LoginPage> {
                               Icon(Icons.email_outlined, color: Colors.grey),
                         ),
                       ),
-                      const SizedBox(height: 30),
-                      TextField(
+                      const SizedBox(height: 25),
+                      TextFormField(
                         controller: passwordController,
                         obscureText: true,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter your Password';
+                          }
+                          return null;
+                        },
                         decoration: const InputDecoration(
                           labelText: 'Password',
                           labelStyle: TextStyle(color: Colors.grey),
@@ -91,7 +103,7 @@ class _LoginPageState extends State<LoginPage> {
                     ],
                   ),
                 ),
-                const SizedBox(height: 70),
+                const SizedBox(height: 65),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -127,21 +139,25 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ],
                 ),
-                const SizedBox(height: 65),
+                const SizedBox(height: 60),
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
                     onPressed: () async {
-                      User? user = await User.getUser(
-                        emailController.text,
-                        passwordController.text,
-                      );
-                      if (user == null) {
-                        // TODO Handle incorrect email and password
-                      } else {
-                        pageHandler.getUserPageHandler(user).toHome();
+                      if (_formKey.currentState!.validate()) {
+                        User? user = await User.getUser(
+                          emailController.text,
+                          passwordController.text,
+                        );
+                        if (user == null) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text('Incorrect Information')),);
+                        } else {
+                          pageHandler.getUserPageHandler(user).toHome();
+                        }
                       }
                     },
+
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.black,
                       foregroundColor: Colors.white,
@@ -156,7 +172,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                 ),
-                const SizedBox(height: 40),
+                const SizedBox(height: 35),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [

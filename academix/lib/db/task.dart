@@ -25,6 +25,9 @@ class Task {
     this.completed,
   ) : doc = FirebaseFirestore.instance.collection("users").doc(userID).collection("tasks").doc(id);
 
+  DateTime get date => DateTime(year, month, day);
+
+
   Color getColor() {
     if (completed) {
       return Colors.black54;

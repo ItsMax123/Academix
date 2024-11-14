@@ -25,7 +25,7 @@ class _RegisterPageState extends State<RegisterPage> {
       body: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.only(left: 25.0, top: 45, right: 25.0),
+            padding: const EdgeInsets.only(left: 25.0, top: 40, right: 25.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -40,7 +40,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     ),
                   ),
                 ),
-                const SizedBox(height: 40),
+                const SizedBox(height: 35),
                 Padding(
                   padding: const EdgeInsets.only(left: 45),
                   child: Column(
@@ -53,7 +53,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           color: Colors.blue[800],
                         ),
                       ),
-                      const SizedBox(height: 10),
+                      const SizedBox(height: 8),
                       Container(
                         width: 40,
                         height: 1.5,
@@ -62,31 +62,49 @@ class _RegisterPageState extends State<RegisterPage> {
                     ],
                   ),
                 ),
-                const SizedBox(height: 45),
+                const SizedBox(height: 40),
                 Form(
                   key: _formKey,
                   child: Column(
                     children: [
-                      TextField(
+                      TextFormField(
                         controller: firstNameController,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter your First Name';
+                          }
+                          return null;
+                        },
                         decoration: const InputDecoration(
                           labelText: 'First Name',
                           labelStyle: TextStyle(color: Colors.grey),
                           prefixIcon: Icon(Icons.person, color: Colors.grey),
                         ),
                       ),
-                      const SizedBox(height: 10),
-                      TextField(
+                      const SizedBox(height: 8),
+                      TextFormField(
                         controller: lastNameController,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter your Last Name';
+                          }
+                          return null;
+                        },
                         decoration: const InputDecoration(
                           labelText: 'Last Name',
                           labelStyle: TextStyle(color: Colors.grey),
                           prefixIcon: Icon(Icons.person, color: Colors.grey),
                         ),
                       ),
-                      const SizedBox(height: 10),
-                      TextField(
+                      const SizedBox(height: 8),
+                      TextFormField(
                         controller: emailController,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter your email Address';
+                          }
+                          return null;
+                        },
                         decoration: const InputDecoration(
                           labelText: 'Email Address',
                           labelStyle: TextStyle(color: Colors.grey),
@@ -94,10 +112,16 @@ class _RegisterPageState extends State<RegisterPage> {
                               Icon(Icons.email_outlined, color: Colors.grey),
                         ),
                       ),
-                      const SizedBox(height: 10),
-                      TextField(
+                      const SizedBox(height: 8),
+                      TextFormField(
                         controller: passwordController,
                         obscureText: true,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter your password';
+                          }
+                          return null;
+                        },
                         decoration: const InputDecoration(
                           labelText: 'Password',
                           labelStyle: TextStyle(color: Colors.grey),
@@ -110,21 +134,23 @@ class _RegisterPageState extends State<RegisterPage> {
                     ],
                   ),
                 ),
-                const SizedBox(height: 70),
+                const SizedBox(height: 65),
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
                     onPressed: () async {
-                      User? user = await User.addUser(
-                        firstNameController.text,
-                        lastNameController.text,
-                        emailController.text,
-                        passwordController.text,
-                      );
-                      if (user == null) {
-                        // TODO Handle email already exists
-                      } else {
-                        pageHandler.getUserPageHandler(user).toHome();
+                      if (_formKey.currentState!.validate()) {
+                        User? user = await User.addUser(
+                          firstNameController.text,
+                          lastNameController.text,
+                          emailController.text,
+                          passwordController.text,
+                        );
+                        if (user == null) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text('input Information')),);                        } else {
+                          pageHandler.getUserPageHandler(user).toHome();
+                        }
                       }
                     },
                     style: ElevatedButton.styleFrom(

@@ -80,14 +80,22 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                   key: _formKey,
                   child: Column(
                     children: [
-                      SizedBox(height: 10,),
+                      SizedBox(
+                        height: 10,
+                      ),
                       Container(
                         decoration: BoxDecoration(
                           border: Border.all(color: Colors.grey),
                           borderRadius: BorderRadius.circular(5),
                         ),
-                        child: TextField(
+                        child: TextFormField(
                           controller: resetPassword,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter your password ';
+                            }
+                            return null;
+                          },
                           decoration: InputDecoration(
                             labelText: 'Enter new password',
                             labelStyle: TextStyle(color: Colors.grey),
@@ -109,8 +117,14 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                           border: Border.all(color: Colors.grey),
                           borderRadius: BorderRadius.circular(5),
                         ),
-                        child: TextField(
+                        child: TextFormField(
                           controller: reEnterPassword,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter your Password again';
+                            }
+                            return null;
+                          },
                           decoration: InputDecoration(
                             labelText: 'Re-enter new password',
                             labelStyle: TextStyle(color: Colors.grey),
@@ -126,8 +140,9 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                   width: double.infinity,
                   child: ElevatedButton(
                     onPressed: () {
-                      // TODO Reset Password?
-                      pageHandler.toLogin();
+                      if (_formKey.currentState!.validate()) {
+                        pageHandler.toLogin();
+                      }
                     },
                     child: Text(
                       'Update Password',
