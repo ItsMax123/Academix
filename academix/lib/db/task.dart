@@ -1,5 +1,5 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Task {
   DocumentReference doc;
@@ -23,10 +23,11 @@ class Task {
     this.month,
     this.day,
     this.completed,
-  ) : doc = FirebaseFirestore.instance.collection("users").doc(userID).collection("tasks").doc(id);
-
-  DateTime get date => DateTime(year, month, day);
-
+  ) : doc = FirebaseFirestore.instance
+            .collection("users")
+            .doc(userID)
+            .collection("tasks")
+            .doc(id);
 
   Color getColor() {
     if (completed) {

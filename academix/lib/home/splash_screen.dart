@@ -1,20 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:academix/authentication/login.dart';
 
-void main() {
-  runApp(const SplashScreenApp());
-}
-
-class SplashScreenApp extends StatelessWidget {
-  const SplashScreenApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: const SplashScreen(),
-    );
-  }
-}
+import '../authentication/login.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -37,20 +23,22 @@ class _SplashScreenState extends State<SplashScreen> {
     });
 
     Future.delayed(const Duration(seconds: 3), () {
-      Navigator.pushReplacement(
-        context,
-        PageRouteBuilder(
-          pageBuilder: (context, animation, secondaryAnimation) => const LoginPage(),
-          transitionsBuilder: (context, animation, secondaryAnimation, child) {
-            return FadeTransition(
-              opacity: animation,
-              child: child,
-            );
-          },
-          transitionDuration: const Duration(seconds: 1),
-        ),
-      );
+      transitionToLogin();
     });
+  }
+
+  void transitionToLogin() {
+    Navigator.pushReplacement(
+      context,
+      PageRouteBuilder(
+        pageBuilder: (context, animation, secondaryAnimation) =>
+            const LoginPage(),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          return FadeTransition(opacity: animation, child: child);
+        },
+        transitionDuration: const Duration(seconds: 1),
+      ),
+    );
   }
 
   @override
@@ -78,7 +66,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Icon(
+                  const Icon(
                     Icons.calendar_month,
                     size: 120,
                     color: Colors.white,
@@ -112,4 +100,3 @@ class _SplashScreenState extends State<SplashScreen> {
     );
   }
 }
-

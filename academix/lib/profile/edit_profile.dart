@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../db/user.dart';
 import '../page_handler.dart';
 import '../bottom_nav.dart';
@@ -13,12 +14,12 @@ class EditProfilePage extends StatefulWidget {
 }
 
 class _EditProfilePageState extends State<EditProfilePage> {
-  final _formKey = GlobalKey<FormState>();
   final TextEditingController firstNameController = TextEditingController();
   final TextEditingController lastNameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
+  @override
   void initState() {
     super.initState();
     firstNameController.text = widget.user.firstName;
@@ -41,21 +42,19 @@ class _EditProfilePageState extends State<EditProfilePage> {
               size: 100,
               color: Colors.black,
             ),
-            SizedBox(height: 60),
+            const SizedBox(height: 60),
             Form(
-              key: _formKey,
               child: Column(
                 children: [
-                  SizedBox(height: 10),
-                  Align(
+                  const SizedBox(height: 10),
+                  const Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
                       "First Name",
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                   ),
-                  SizedBox(height: 10),
-
+                  const SizedBox(height: 10),
                   Container(
                     decoration: BoxDecoration(
                       border: Border.all(color: Colors.grey),
@@ -64,24 +63,23 @@ class _EditProfilePageState extends State<EditProfilePage> {
                     child: TextField(
                       controller: firstNameController,
                       enabled: true,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         labelStyle: TextStyle(color: Colors.grey),
                         border: InputBorder.none,
                         contentPadding: EdgeInsets.symmetric(horizontal: 10),
                         suffixIcon: Icon(Icons.edit, color: Colors.grey),
-
                       ),
                     ),
                   ),
-                  SizedBox(height: 20),
-                  Align(
+                  const SizedBox(height: 20),
+                  const Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
                       "Last Name",
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   Container(
                     decoration: BoxDecoration(
                       border: Border.all(color: Colors.grey),
@@ -90,24 +88,23 @@ class _EditProfilePageState extends State<EditProfilePage> {
                     child: TextField(
                       controller: lastNameController,
                       enabled: true,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         labelStyle: TextStyle(color: Colors.grey),
                         border: InputBorder.none,
                         contentPadding: EdgeInsets.symmetric(horizontal: 10),
                         suffixIcon: Icon(Icons.edit, color: Colors.grey),
-
                       ),
                     ),
                   ),
-                  SizedBox(height: 20),
-                  Align(
+                  const SizedBox(height: 20),
+                  const Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
                       "Email Address",
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   Container(
                     decoration: BoxDecoration(
                       border: Border.all(color: Colors.grey),
@@ -116,7 +113,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                     child: TextField(
                       controller: emailController,
                       enabled: true,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         labelStyle: TextStyle(color: Colors.grey),
                         border: InputBorder.none,
                         contentPadding: EdgeInsets.symmetric(horizontal: 10),
@@ -124,15 +121,15 @@ class _EditProfilePageState extends State<EditProfilePage> {
                       ),
                     ),
                   ),
-                  SizedBox(height: 20),
-                  Align(
+                  const SizedBox(height: 20),
+                  const Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
                       "Password",
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   Container(
                     decoration: BoxDecoration(
                       border: Border.all(color: Colors.grey),
@@ -142,8 +139,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                       controller: passwordController,
                       enabled: true,
                       obscureText: true,
-
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         labelStyle: TextStyle(color: Colors.grey),
                         border: InputBorder.none,
                         contentPadding: EdgeInsets.symmetric(horizontal: 10),
@@ -154,26 +150,29 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 ],
               ),
             ),
-
-            SizedBox(height: 75),
+            const SizedBox(height: 75),
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: () {
-                  // TODO Edit profile
+                  widget.user.firstName = firstNameController.text;
+                  widget.user.lastName = lastNameController.text;
+                  widget.user.email = emailController.text;
+                  widget.user.password = passwordController.text;
+                  widget.user.save();
                   pageHandler.toProfile();
                 },
-                child: Text(
-                  'Edit Profile',
-                  style: TextStyle(fontSize: 20),
-                ),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.black,
                   foregroundColor: Colors.white,
-                  padding: EdgeInsets.symmetric(vertical: 16),
+                  padding: const EdgeInsets.symmetric(vertical: 16),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(5),
                   ),
+                ),
+                child: const Text(
+                  'Edit Profile',
+                  style: TextStyle(fontSize: 20),
                 ),
               ),
             ),
@@ -183,4 +182,3 @@ class _EditProfilePageState extends State<EditProfilePage> {
     );
   }
 }
-

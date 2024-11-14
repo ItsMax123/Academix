@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+
 import '../db/user.dart';
 import '../page_handler.dart';
 import '../bottom_nav.dart';
@@ -63,7 +64,8 @@ class _CalendarPageState extends State<CalendarPage> {
             Expanded(
               child: ListView(
                 children: [
-                  for (Task task in pageHandler.user.getTasksOn(active)) taskListItem(pageHandler, task)
+                  for (Task task in widget.user.getTasksOn(active))
+                    taskListItem(pageHandler, task)
                 ],
               ),
             ),
@@ -73,7 +75,7 @@ class _CalendarPageState extends State<CalendarPage> {
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.purple[300],
         foregroundColor: Colors.white,
-        shape: CircleBorder(),
+        shape: const CircleBorder(),
         onPressed: () {
           pageHandler.toAddTask().then((_) {
             setState(() {});
@@ -167,14 +169,8 @@ class _CalendarPageState extends State<CalendarPage> {
       decoration: BoxDecoration(
         color: task.getColor().withOpacity(0.5),
         border: Border.symmetric(
-          horizontal: BorderSide(
-            color: task.getColor(),
-            width: 2,
-          ),
-          vertical: BorderSide(
-            color: task.getColor(),
-            width: 4,
-          ),
+          horizontal: BorderSide(color: task.getColor(), width: 2),
+          vertical: BorderSide(color: task.getColor(), width: 4),
         ),
         borderRadius: BorderRadius.circular(10),
       ),
@@ -193,9 +189,7 @@ class _CalendarPageState extends State<CalendarPage> {
           children: [
             Text(
               task.title,
-              style: const TextStyle(
-                fontSize: 20,
-              ),
+              style: const TextStyle(fontSize: 20),
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
             ),

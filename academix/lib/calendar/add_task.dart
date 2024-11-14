@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+
 import '../db/user.dart';
 import '../bottom_nav.dart';
+import '../page_handler.dart';
 
 class AddTaskPage extends StatefulWidget {
   final User user;
@@ -13,7 +15,6 @@ class AddTaskPage extends StatefulWidget {
 }
 
 class _AddTaskPageState extends State<AddTaskPage> {
-  final _formKey = GlobalKey<FormState>();
   final TextEditingController titleController = TextEditingController();
   final TextEditingController descriptionController = TextEditingController();
 
@@ -24,6 +25,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
 
   @override
   Widget build(BuildContext context) {
+    UserPageHandler pageHandler = UserPageHandler(context, widget.user);
     return Scaffold(
       bottomNavigationBar: BottomNav(user: widget.user, index: 1),
       body: Column(
@@ -34,13 +36,13 @@ class _AddTaskPageState extends State<AddTaskPage> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(height: 30),
+                const SizedBox(height: 30),
                 Align(
                   alignment: Alignment.topLeft,
                   child: IconButton(
-                    icon: Icon(Icons.arrow_back, color: Colors.grey),
+                    icon: const Icon(Icons.arrow_back, color: Colors.grey),
                     onPressed: () {
-                      Navigator.pop(context);
+                      pageHandler.back();
                     },
                   ),
                 ),
@@ -68,17 +70,16 @@ class _AddTaskPageState extends State<AddTaskPage> {
                 ),
                 const SizedBox(height: 75),
                 Form(
-                  key: _formKey,
                   child: Column(
                     children: [
-                      Align(
+                      const Align(
                         alignment: Alignment.centerLeft,
                         child: Text(
                           "Enter Title",
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
                       ),
-                      SizedBox(height: 8),
+                      const SizedBox(height: 8),
                       Container(
                         decoration: BoxDecoration(
                           border: Border.all(color: Colors.grey),
@@ -94,14 +95,14 @@ class _AddTaskPageState extends State<AddTaskPage> {
                         ),
                       ),
                       const SizedBox(height: 20),
-                      Align(
+                      const Align(
                         alignment: Alignment.centerLeft,
                         child: Text(
                           "Enter Description",
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
                       ),
-                      SizedBox(height: 8),
+                      const SizedBox(height: 8),
                       Container(
                         decoration: BoxDecoration(
                           border: Border.all(color: Colors.grey),
@@ -117,14 +118,14 @@ class _AddTaskPageState extends State<AddTaskPage> {
                         ),
                       ),
                       const SizedBox(height: 20),
-                      Align(
+                      const Align(
                         alignment: Alignment.centerLeft,
                         child: Text(
                           "Select Type",
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
                       ),
-                      SizedBox(height: 8),
+                      const SizedBox(height: 8),
                       DropdownButton(
                         isExpanded: true,
                         hint: Text(type),
@@ -149,14 +150,14 @@ class _AddTaskPageState extends State<AddTaskPage> {
                         },
                       ),
                       const SizedBox(height: 20),
-                      Align(
+                      const Align(
                         alignment: Alignment.centerLeft,
                         child: Text(
                           "Choose Date",
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
                       ),
-                      SizedBox(height: 8),
+                      const SizedBox(height: 8),
                       Container(
                         height: 50,
                         decoration: BoxDecoration(
@@ -167,7 +168,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
                               color: Colors.grey.withOpacity(0.5),
                               spreadRadius: 2,
                               blurRadius: 5,
-                              offset: Offset(0, 3),
+                              offset: const Offset(0, 3),
                             ),
                           ],
                         ),
@@ -185,8 +186,10 @@ class _AddTaskPageState extends State<AddTaskPage> {
                               final DateTime? picked = await showDatePicker(
                                 context: context,
                                 initialDate: DateTime(year, month, day),
-                                firstDate: DateTime.now().subtract(const Duration(days: 999)),
-                                lastDate: DateTime.now().add(const Duration(days: 999)),
+                                firstDate: DateTime.now()
+                                    .subtract(const Duration(days: 999)),
+                                lastDate: DateTime.now()
+                                    .add(const Duration(days: 999)),
                               );
                               if (picked != null) {
                                 setState(() {
@@ -199,11 +202,15 @@ class _AddTaskPageState extends State<AddTaskPage> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Icon(Icons.calendar_today, color: Colors.grey), // Calendar icon
-                                SizedBox(width: 8), // Spacing between icon and text
+                                const Icon(Icons.calendar_today,
+                                    color: Colors.grey),
+                                // Calendar icon
+                                const SizedBox(width: 8),
+                                // Spacing between icon and text
                                 Text(
-                                  DateFormat('MMMM d, yyyy').format(DateTime(year, month, day)),
-                                  style: TextStyle(color: Colors.black),
+                                  DateFormat('MMMM d, yyyy')
+                                      .format(DateTime(year, month, day)),
+                                  style: const TextStyle(color: Colors.black),
                                 ),
                               ],
                             ),
@@ -220,9 +227,13 @@ class _AddTaskPageState extends State<AddTaskPage> {
                     width: 180,
                     height: 50,
                     child: ElevatedButton(
-                      onPressed: () {
-                        widget.user.addTask(titleController.text, descriptionController.text, type, year, month, day);
-                        Navigator.pop(context);
+                      onPressed: () async {
+                        if (titleController.text.isEmpty) {
+                          notify("Please give your Task a title");
+                          return;
+                        }
+                        await widget.user.addTask(titleController.text, descriptionController.text, type, year, month, day);
+                        pageHandler.back();
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.blue[100],
@@ -245,5 +256,11 @@ class _AddTaskPageState extends State<AddTaskPage> {
         ],
       ),
     );
+  }
+
+  void notify(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text(message),
+    ));
   }
 }

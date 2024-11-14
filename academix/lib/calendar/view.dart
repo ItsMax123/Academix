@@ -1,23 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+
 import '../bottom_nav.dart';
 import '../db/task.dart';
 import '../db/user.dart';
+import '../page_handler.dart';
 
-class ViewWeekTasks extends StatefulWidget {
+class ViewPage extends StatefulWidget {
   final User user;
-  const ViewWeekTasks({super.key, required this.user});
+
+  const ViewPage({super.key, required this.user});
 
   @override
-  State<ViewWeekTasks> createState() => _ViewWeekTasksState();
+  State<ViewPage> createState() => _ViewPageState();
 }
 
-class _ViewWeekTasksState extends State<ViewWeekTasks> {
-  DateTime active = DateTime.now();
-
+class _ViewPageState extends State<ViewPage> {
   @override
   Widget build(BuildContext context) {
+    UserPageHandler pageHandler = UserPageHandler(context, widget.user);
     return Scaffold(
+      bottomNavigationBar: BottomNav(user: widget.user, index: 2),
       backgroundColor: Colors.white,
       body: Column(
         children: [
@@ -33,12 +35,12 @@ class _ViewWeekTasksState extends State<ViewWeekTasks> {
                     const SizedBox(width: 10),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: const [
-                        Text("Good Evening",
+                      children: [
+                        const Text("Good Evening",
                             style: TextStyle(color: Colors.grey, fontSize: 15)),
-                        SizedBox(height: 5),
-                        Text("User",
-                            style: TextStyle(
+                        const SizedBox(height: 5),
+                        Text(widget.user.firstName,
+                            style: const TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 25)),
                       ],
                     ),
@@ -51,11 +53,15 @@ class _ViewWeekTasksState extends State<ViewWeekTasks> {
               ],
             ),
           ),
-
           Expanded(
             child: Padding(
               padding: const EdgeInsets.only(left: 25.0, right: 25.0),
-              child: tasks(),
+              child: ListView(
+                children: [
+                  for (Task task in widget.user.getWeeklyTasks())
+                    taskListItem(pageHandler, task)
+                ],
+              ),
             ),
           ),
         ],
@@ -63,17 +69,7 @@ class _ViewWeekTasksState extends State<ViewWeekTasks> {
     );
   }
 
-  Expanded tasks() {
-    return Expanded(
-      child: ListView(
-        children: [
-          for (Task task in widget.user.getTasksForWeek(active)) taskListItem(task)
-        ],
-      ),
-    );
-  }
-
-  Widget taskListItem(Task task) {
+  Widget taskListItem(UserPageHandler pageHandler, Task task) {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 5),
       decoration: BoxDecoration(
@@ -84,9 +80,28 @@ class _ViewWeekTasksState extends State<ViewWeekTasks> {
         ),
         borderRadius: BorderRadius.circular(10),
       ),
-      child: ListTile(
-        title: Text(task.title, style: const TextStyle(fontSize: 20)),
-        subtitle: Text(task.description),
+      child: ElevatedButton(
+        onPressed: () {
+          pageHandler.toTask(task).then((_) {
+            setState(() {});
+          });
+        },
+        style: ElevatedButton.styleFrom(
+          backgroundColor: Colors.transparent,
+          shadowColor: Colors.transparent,
+          shape: const RoundedRectangleBorder(),
+        ),
+        child: Column(
+          children: [
+            Text(
+              task.title,
+              style: const TextStyle(fontSize: 20),
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+            ),
+            Text(task.description),
+          ],
+        ),
       ),
     );
   }

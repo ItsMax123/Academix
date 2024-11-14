@@ -1,7 +1,8 @@
-import 'package:academix/profile/edit_profile.dart';
-import 'package:academix/profile/profile.dart';
 import 'package:flutter/material.dart';
 
+import 'calendar/view.dart';
+import 'profile/edit_profile.dart';
+import 'profile/profile.dart';
 import 'authentication/forget_password.dart';
 import 'authentication/login.dart';
 import 'authentication/register.dart';
@@ -17,6 +18,10 @@ class PageHandler {
   BuildContext context;
 
   PageHandler(this.context);
+
+  void back() {
+    Navigator.pop(context);
+  }
 
   Future<void> toLogin() {
     return Navigator.pushReplacement(
@@ -49,7 +54,7 @@ class PageHandler {
     return Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) =>  ResetPasswordPage(email: email),
+        builder: (context) => ResetPasswordPage(email: email),
       ),
     );
   }
@@ -86,7 +91,7 @@ class UserPageHandler extends PageHandler {
     return Navigator.pushReplacement(
       context,
       MaterialPageRoute(
-        builder: (context) => CalendarPage(user: user),  // TODO Change
+        builder: (context) => ViewPage(user: user),
       ),
     );
   }

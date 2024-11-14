@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../db/user.dart';
 import '../page_handler.dart';
 import '../bottom_nav.dart';
@@ -13,7 +14,6 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  final _formKey = GlobalKey<FormState>();
   final TextEditingController firstNameController = TextEditingController();
   final TextEditingController lastNameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
@@ -33,21 +33,19 @@ class _ProfilePageState extends State<ProfilePage> {
               size: 100,
               color: Colors.black,
             ),
-            SizedBox(height: 60),
+            const SizedBox(height: 60),
             Form(
-              key: _formKey,
               child: Column(
                 children: [
-                  SizedBox(height: 10),
-                  Align(
+                  const SizedBox(height: 10),
+                  const Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
                       "First Name",
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                   ),
-                  SizedBox(height: 10),
-
+                  const SizedBox(height: 10),
                   Container(
                     decoration: BoxDecoration(
                       border: Border.all(color: Colors.grey),
@@ -57,22 +55,23 @@ class _ProfilePageState extends State<ProfilePage> {
                       controller: firstNameController,
                       enabled: false,
                       decoration: InputDecoration(
-                        labelText: '${widget.user.firstName}',
-                        labelStyle: TextStyle(color: Colors.grey),
+                        labelText: widget.user.firstName,
+                        labelStyle: const TextStyle(color: Colors.grey),
                         border: InputBorder.none,
-                        contentPadding: EdgeInsets.symmetric(horizontal: 10),
+                        contentPadding:
+                            const EdgeInsets.symmetric(horizontal: 10),
                       ),
                     ),
                   ),
-                  SizedBox(height: 20),
-                  Align(
+                  const SizedBox(height: 20),
+                  const Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
                       "Last Name",
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   Container(
                     decoration: BoxDecoration(
                       border: Border.all(color: Colors.grey),
@@ -82,22 +81,23 @@ class _ProfilePageState extends State<ProfilePage> {
                       controller: lastNameController,
                       enabled: false,
                       decoration: InputDecoration(
-                        labelText: '${widget.user.lastName}',
-                        labelStyle: TextStyle(color: Colors.grey),
+                        labelText: widget.user.lastName,
+                        labelStyle: const TextStyle(color: Colors.grey),
                         border: InputBorder.none,
-                        contentPadding: EdgeInsets.symmetric(horizontal: 10),
+                        contentPadding:
+                            const EdgeInsets.symmetric(horizontal: 10),
                       ),
                     ),
                   ),
-                  SizedBox(height: 20),
-                  Align(
+                  const SizedBox(height: 20),
+                  const Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
                       "Email Address",
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   Container(
                     decoration: BoxDecoration(
                       border: Border.all(color: Colors.grey),
@@ -107,22 +107,23 @@ class _ProfilePageState extends State<ProfilePage> {
                       controller: emailController,
                       enabled: false,
                       decoration: InputDecoration(
-                        labelText: '${widget.user.email}',
-                        labelStyle: TextStyle(color: Colors.grey),
+                        labelText: widget.user.email,
+                        labelStyle: const TextStyle(color: Colors.grey),
                         border: InputBorder.none,
-                        contentPadding: EdgeInsets.symmetric(horizontal: 10),
+                        contentPadding:
+                            const EdgeInsets.symmetric(horizontal: 10),
                       ),
                     ),
                   ),
-                  SizedBox(height: 20),
-                  Align(
+                  const SizedBox(height: 20),
+                  const Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
                       "Password",
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   Container(
                     decoration: BoxDecoration(
                       border: Border.all(color: Colors.grey),
@@ -133,34 +134,35 @@ class _ProfilePageState extends State<ProfilePage> {
                       enabled: false,
                       obscureText: true,
                       decoration: InputDecoration(
-                        labelText: '${widget.user.password}',
-                        labelStyle: TextStyle(color: Colors.grey),
+                        labelText: widget.user.password,
+                        labelStyle: const TextStyle(color: Colors.grey),
                         border: InputBorder.none,
-                        contentPadding: EdgeInsets.symmetric(horizontal: 10),
+                        contentPadding:
+                            const EdgeInsets.symmetric(horizontal: 10),
                       ),
                     ),
                   ),
                 ],
               ),
             ),
-            SizedBox(height: 75),
+            const SizedBox(height: 75),
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: () {
                   pageHandler.toEditProfile();
                 },
-                child: Text(
-                  'Edit Profile',
-                  style: TextStyle(fontSize: 20),
-                ),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.black,
                   foregroundColor: Colors.white,
-                  padding: EdgeInsets.symmetric(vertical: 16),
+                  padding: const EdgeInsets.symmetric(vertical: 16),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(5),
                   ),
+                ),
+                child: const Text(
+                  'Edit Profile',
+                  style: TextStyle(fontSize: 20),
                 ),
               ),
             ),
@@ -170,5 +172,3 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 }
-
-

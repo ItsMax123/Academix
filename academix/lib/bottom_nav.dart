@@ -1,5 +1,5 @@
-import 'package:academix/page_handler.dart';
 import 'package:flutter/material.dart';
+import 'package:academix/page_handler.dart';
 
 import 'db/user.dart';
 

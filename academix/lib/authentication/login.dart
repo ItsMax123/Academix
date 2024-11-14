@@ -150,14 +150,12 @@ class _LoginPageState extends State<LoginPage> {
                           passwordController.text,
                         );
                         if (user == null) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text('Incorrect Information')),);
+                          notify("Incorrect Information");
                         } else {
                           pageHandler.getUserPageHandler(user).toHome();
                         }
                       }
                     },
-
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.black,
                       foregroundColor: Colors.white,
@@ -201,5 +199,11 @@ class _LoginPageState extends State<LoginPage> {
         ],
       ),
     );
+  }
+
+  void notify(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text(message),
+    ));
   }
 }

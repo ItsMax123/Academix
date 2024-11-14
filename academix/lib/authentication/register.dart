@@ -147,8 +147,8 @@ class _RegisterPageState extends State<RegisterPage> {
                           passwordController.text,
                         );
                         if (user == null) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text('input Information')),);                        } else {
+                          notify("Email Already In Use");
+                        } else {
                           pageHandler.getUserPageHandler(user).toHome();
                         }
                       }
@@ -196,5 +196,11 @@ class _RegisterPageState extends State<RegisterPage> {
         ],
       ),
     );
+  }
+
+  void notify(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text(message),
+    ));
   }
 }

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+
 import '../db/user.dart';
 import '../bottom_nav.dart';
 import '../db/task.dart';
+import '../page_handler.dart';
 
 class TaskPage extends StatefulWidget {
   final User user;
@@ -17,6 +19,7 @@ class TaskPage extends StatefulWidget {
 class _TaskPageState extends State<TaskPage> {
   @override
   Widget build(BuildContext context) {
+    UserPageHandler pageHandler = UserPageHandler(context, widget.user);
     return Scaffold(
       bottomNavigationBar: BottomNav(user: widget.user, index: 1),
       body: Column(
@@ -27,13 +30,13 @@ class _TaskPageState extends State<TaskPage> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 Align(
                   alignment: Alignment.topLeft,
                   child: IconButton(
-                    icon: Icon(Icons.arrow_back, color: Colors.grey),
+                    icon: const Icon(Icons.arrow_back, color: Colors.grey),
                     onPressed: () {
-                      Navigator.pop(context);
+                      pageHandler.back();
                     },
                   ),
                 ),
@@ -63,7 +66,7 @@ class _TaskPageState extends State<TaskPage> {
                 Form(
                   child: Column(
                     children: [
-                      Align(
+                      const Align(
                         alignment: Alignment.centerLeft,
                         child: Text(
                           "Title",
@@ -88,7 +91,7 @@ class _TaskPageState extends State<TaskPage> {
                         ),
                       ),
                       const SizedBox(height: 20),
-                      Align(
+                      const Align(
                         alignment: Alignment.centerLeft,
                         child: Text(
                           "Description",
@@ -113,7 +116,7 @@ class _TaskPageState extends State<TaskPage> {
                         ),
                       ),
                       const SizedBox(height: 20),
-                      Align(
+                      const Align(
                         alignment: Alignment.centerLeft,
                         child: Text(
                           "Type",
@@ -127,12 +130,16 @@ class _TaskPageState extends State<TaskPage> {
                         items: const [
                           DropdownMenuItem(value: "Exam", child: Text("Exam")),
                           DropdownMenuItem(
-                              value: "Presentation", child: Text("Presentation")),
-                          DropdownMenuItem(value: "Project", child: Text("Project")),
+                              value: "Presentation",
+                              child: Text("Presentation")),
+                          DropdownMenuItem(
+                              value: "Project", child: Text("Project")),
                           DropdownMenuItem(
                               value: "Assignment", child: Text("Assignment")),
-                          DropdownMenuItem(value: "Homework", child: Text("Homework")),
-                          DropdownMenuItem(value: "Other", child: Text("Other")),
+                          DropdownMenuItem(
+                              value: "Homework", child: Text("Homework")),
+                          DropdownMenuItem(
+                              value: "Other", child: Text("Other")),
                         ],
                         onChanged: (value) {
                           setState(() {
@@ -141,7 +148,7 @@ class _TaskPageState extends State<TaskPage> {
                         },
                       ),
                       const SizedBox(height: 20),
-                      Align(
+                      const Align(
                         alignment: Alignment.centerLeft,
                         child: Text(
                           "Choose Date",
@@ -176,9 +183,12 @@ class _TaskPageState extends State<TaskPage> {
                             onPressed: () async {
                               final DateTime? picked = await showDatePicker(
                                 context: context,
-                                initialDate: DateTime(widget.task.year, widget.task.month, widget.task.day),
-                                firstDate: DateTime.now().subtract(const Duration(days: 999)),
-                                lastDate: DateTime.now().add(const Duration(days: 999)),
+                                initialDate: DateTime(widget.task.year,
+                                    widget.task.month, widget.task.day),
+                                firstDate: DateTime.now()
+                                    .subtract(const Duration(days: 999)),
+                                lastDate: DateTime.now()
+                                    .add(const Duration(days: 999)),
                               );
                               if (picked != null) {
                                 setState(() {
@@ -191,10 +201,14 @@ class _TaskPageState extends State<TaskPage> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                const Icon(Icons.calendar_today, color: Colors.grey),
+                                const Icon(Icons.calendar_today,
+                                    color: Colors.grey),
                                 const SizedBox(width: 8),
                                 Text(
-                                  DateFormat('MMMM d, yyyy').format(DateTime(widget.task.year, widget.task.month, widget.task.day)),
+                                  DateFormat('MMMM d, yyyy').format(DateTime(
+                                      widget.task.year,
+                                      widget.task.month,
+                                      widget.task.day)),
                                   style: const TextStyle(color: Colors.black),
                                 ),
                               ],
@@ -206,7 +220,8 @@ class _TaskPageState extends State<TaskPage> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Text("Completed", style: TextStyle(fontSize: 20)),
+                          const Text("Completed",
+                              style: TextStyle(fontSize: 20)),
                           Switch(
                             value: widget.task.completed,
                             activeColor: Colors.blue,
@@ -226,29 +241,9 @@ class _TaskPageState extends State<TaskPage> {
                             width: 170,
                             height: 50,
                             child: ElevatedButton(
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.blue[100],
-                                foregroundColor: Colors.indigo[500],
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(30),
-                                ),
-                              ),
-                              child: const Text(
-                                'Save Task',
-                                style: TextStyle(fontSize: 20),
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            width: 170,
-                            height: 50,
-                            child: ElevatedButton(
-                              onPressed: () {
-                                widget.user.removeTask(widget.task);
-                                Navigator.pop(context);
+                              onPressed: () async {
+                                await widget.user.removeTask(widget.task);
+                                pageHandler.back();
                               },
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.red[100],
@@ -259,6 +254,26 @@ class _TaskPageState extends State<TaskPage> {
                               ),
                               child: const Text(
                                 'Delete Task',
+                                style: TextStyle(fontSize: 20),
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            width: 170,
+                            height: 50,
+                            child: ElevatedButton(
+                              onPressed: () {
+                                pageHandler.back();
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.blue[100],
+                                foregroundColor: Colors.indigo[500],
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(30),
+                                ),
+                              ),
+                              child: const Text(
+                                'Save Task',
                                 style: TextStyle(fontSize: 20),
                               ),
                             ),

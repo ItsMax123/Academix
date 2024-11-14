@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+
 import '../db/user.dart';
 import '../page_handler.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ForgetPasswordPage extends StatefulWidget {
   const ForgetPasswordPage({super.key});
@@ -27,20 +27,20 @@ class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(height: 60),
+                const SizedBox(height: 60),
                 // Back button
                 Align(
                   alignment: Alignment.topLeft,
                   child: IconButton(
-                    icon: Icon(Icons.arrow_back, color: Colors.grey),
+                    icon: const Icon(Icons.arrow_back, color: Colors.grey),
                     onPressed: () {
                       Navigator.pop(context);
                     },
                   ),
                 ),
-                SizedBox(height: 45),
+                const SizedBox(height: 45),
                 Padding(
-                  padding: EdgeInsets.only(left: 20),
+                  padding: const EdgeInsets.only(left: 20),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -51,7 +51,7 @@ class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
                           color: Colors.blue[800],
                         ),
                       ),
-                      SizedBox(height: 10),
+                      const SizedBox(height: 10),
                       Container(
                         width: 40,
                         height: 1.5,
@@ -60,27 +60,27 @@ class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
                     ],
                   ),
                 ),
-                SizedBox(height: 60),
-                Text(
+                const SizedBox(height: 60),
+                const Text(
                   "Forgot password",
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 ),
-                SizedBox(height: 20),
-                Text(
+                const SizedBox(height: 20),
+                const Text(
                   "Please enter your email to reset the password",
                   style: TextStyle(color: Colors.grey),
                 ),
-                SizedBox(height: 25),
-                Text(
+                const SizedBox(height: 25),
+                const Text(
                   "Your Email",
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 Form(
                   key: _formKey,
                   child: Column(
                     children: [
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
                       Container(
@@ -96,7 +96,7 @@ class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
                             }
                             return null;
                           },
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             labelText: 'Email Address',
                             labelStyle: TextStyle(color: Colors.grey),
                             prefixIcon:
@@ -105,46 +105,45 @@ class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
                           ),
                         ),
                       ),
-                      SizedBox(height: 10),
+                      const SizedBox(height: 10),
                     ],
                   ),
                 ),
-                SizedBox(height: 70),
+                const SizedBox(height: 70),
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
                     onPressed: () async {
                       if (_formKey.currentState!.validate()) {
-                        bool emailExists = await User.checkEmailExists(emailController.text);
+                        bool emailExists =
+                            await User.isAlreadyEmail(emailController.text);
                         if (emailExists) {
                           pageHandler.toResetPassword(emailController.text);
                         } else {
                           emailController.text = "";
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text("Email not found. Please try again.")),
-                          );
+                          emailNotFound();
                         }
                       }
                     },
-                    child: Text(
-                      'Reset Password',
-                      style: TextStyle(fontSize: 20),
-                    ),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.black,
                       foregroundColor: Colors.white,
-                      padding: EdgeInsets.symmetric(vertical: 16),
+                      padding: const EdgeInsets.symmetric(vertical: 16),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(5),
                       ),
                     ),
+                    child: const Text(
+                      'Reset Password',
+                      style: TextStyle(fontSize: 20),
+                    ),
                   ),
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
               ],
             ),
           ),
-          Spacer(),
+          const Spacer(),
           Image.asset(
             "assets/img.jpg",
             height: 120,
@@ -153,6 +152,12 @@ class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
           ),
         ],
       ),
+    );
+  }
+
+  void emailNotFound() {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text("Email not found. Please try again.")),
     );
   }
 }

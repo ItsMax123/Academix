@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+
 import 'task.dart';
 
 class User {
@@ -11,7 +12,9 @@ class User {
   String email;
   String password;
 
-  User(this.tasks, this.id, this.firstName, this.lastName, this.email, this.password) : doc = FirebaseFirestore.instance.collection("users").doc(id);
+  User(this.tasks, this.id, this.firstName, this.lastName, this.email,
+      this.password)
+      : doc = FirebaseFirestore.instance.collection("users").doc(id);
 
   List<Task> getTasksOn(DateTime date) {
     List<Task> tasks = [];
@@ -25,6 +28,28 @@ class User {
     return tasks;
   }
 
+  List<Task> getWeeklyTasks() {
+    DateTime now = DateTime.now();
+    DateTime start = now.subtract(Duration(days: now.weekday - 1));
+    DateTime end = start.add(const Duration(days: 6));
+    return tasks
+        .where((task) =>
+            start.year <= task.year &&
+            start.month <= task.month &&
+            start.day <= task.day &&
+            end.year >= task.year &&
+            end.month >= task.month &&
+            end.day >= task.day)
+        .toList();
+  }
+
+  List<Task> getMonthlyTasks() {
+    DateTime now = DateTime.now();
+    return tasks
+        .where((task) => now.year == task.year && now.month == task.month)
+        .toList();
+  }
+
   Future<void> save() async {
     try {
       await doc.update(toMap());
@@ -33,7 +58,8 @@ class User {
     }
   }
 
-  Future<Task> addTask(String title, String description, String type, int year, int month, int day) async {
+  Future<Task> addTask(String title, String description, String type, int year,
+      int month, int day) async {
     String taskID = (await doc.collection("tasks").add({
       "title": title,
       "description": description,
@@ -84,20 +110,21 @@ class User {
     );
   }
 
-  static Future<User?> addUser(String firstName, String lastName, String email, String password) async {
+  static Future<User?> addUser(
+      String firstName, String lastName, String email, String password) async {
     try {
-      if ((await FirebaseFirestore.instance.collection("users").where("email", isEqualTo: email).get()).docs.isNotEmpty) {
+      if (await isAlreadyEmail(email)) {
         return null;
       }
-      String userID = (await FirebaseFirestore.instance.collection("users").add({
-        "firstName": firstName,
-        "lastName": lastName,
-        "email": email,
-        "password": password,
-      })).id;
       return User(
         [],
-        userID,
+        (await FirebaseFirestore.instance.collection("users").add({
+          "firstName": firstName,
+          "lastName": lastName,
+          "email": email,
+          "password": password,
+        }))
+            .id,
         firstName,
         lastName,
         email,
@@ -110,7 +137,8 @@ class User {
 
   static Future<User?> getUser(String email, String password) async {
     try {
-      QuerySnapshot querySnapshot = await FirebaseFirestore.instance.collection("users")
+      QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+          .collection("users")
           .where("email", isEqualTo: email)
           .where("password", isEqualTo: password)
           .get();
@@ -118,10 +146,12 @@ class User {
         return null;
       }
       var user = querySnapshot.docs.first;
-      List<Task> tasks = (await FirebaseFirestore.instance.collection('users')
-          .doc(user.id)
-          .collection('tasks')
-          .get()).docs
+      List<Task> tasks = (await FirebaseFirestore.instance
+              .collection('users')
+              .doc(user.id)
+              .collection('tasks')
+              .get())
+          .docs
           .map((task) => Task.fromMap(user.id, task.id, task.data()))
           .toList();
       return User.fromMap(tasks, user.id, user.data() as Map<String, dynamic>);
@@ -129,17 +159,20 @@ class User {
       return null;
     }
   }
-  static Future<bool> checkEmailExists(String email) async {
+
+  static Future<bool> isAlreadyEmail(String email) async {
     try {
-      QuerySnapshot querySnapshot = await FirebaseFirestore.instance
-          .collection("users")
-          .where("email", isEqualTo: email)
-          .get();
-      return querySnapshot.docs.isNotEmpty;
+      return (await FirebaseFirestore.instance
+              .collection("users")
+              .where("email", isEqualTo: email)
+              .get())
+          .docs
+          .isNotEmpty;
     } catch (e) {
       return false;
     }
   }
+
   static Future<bool> updatePassword(String email, String newPassword) async {
     try {
       QuerySnapshot querySnapshot = await FirebaseFirestore.instance
@@ -148,7 +181,6 @@ class User {
           .get();
 
       if (querySnapshot.docs.isNotEmpty) {
-
         String userId = querySnapshot.docs.first.id;
 
         await FirebaseFirestore.instance
@@ -163,12 +195,5 @@ class User {
     } catch (e) {
       return false;
     }
-  }
-
-
-  List<Task> getTasksForWeek(DateTime activeDate) {
-    DateTime startOfWeek = activeDate.subtract(Duration(days: activeDate.weekday - 1));
-    DateTime endOfWeek = startOfWeek.add(const Duration(days: 6));
-    return tasks.where((task) => task.date.isAfter(startOfWeek.subtract(Duration(days: 1))) && task.date.isBefore(endOfWeek.add(Duration(days: 1)))).toList();
   }
 }

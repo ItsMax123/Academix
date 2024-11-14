@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import '../db/user.dart';
-import '../page_handler.dart';
-import '../bottom_nav.dart';
 import 'dart:async';
+
+import '../db/user.dart';
+import '../bottom_nav.dart';
 
 class HomePage extends StatefulWidget {
   final User user;
@@ -15,7 +15,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  DateTime today = DateTime.now();
+  DateTime now = DateTime.now();
   String currentTime = '';
 
   @override
@@ -23,30 +23,16 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     currentTime = DateFormat('HH:mm').format(DateTime.now());
     Timer.periodic(const Duration(seconds: 1), (Timer timer) {
-      setState(() {
-        currentTime = DateFormat('HH:mm').format(DateTime.now());
-      });
+      if (mounted) {
+        setState(() {
+          currentTime = DateFormat('HH:mm').format(DateTime.now());
+        });
+      }
     });
-  }
-
-  String getDayName(DateTime date) {
-    return DateFormat('EEE').format(date);
-  }
-
-  String getDayNumber(DateTime date) {
-    return DateFormat('d').format(date);
   }
 
   @override
   Widget build(BuildContext context) {
-    UserPageHandler pageHandler = UserPageHandler(context, widget.user);
-
-    DateTime previousDay = today.subtract(const Duration(days: 1));
-    DateTime currentDay = today;
-    DateTime nextDay1 = today.add(const Duration(days: 1));
-    DateTime nextDay2 = today.add(const Duration(days: 2));
-
-
     return Scaffold(
       backgroundColor: Colors.white,
       bottomNavigationBar: BottomNav(user: widget.user, index: 0),
@@ -63,12 +49,12 @@ class _HomePageState extends State<HomePage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      DateFormat('EEEE').format(today),
+                      DateFormat('EEEE').format(now),
                       style: const TextStyle(color: Colors.grey, fontSize: 16),
                     ),
                     const SizedBox(height: 5),
                     Text(
-                      "${DateFormat('d').format(today)} ${DateFormat('MMMM').format(today)}",
+                      "${DateFormat('d').format(now)} ${DateFormat('MMMM').format(now)}",
                       style: const TextStyle(
                         color: Colors.black,
                         fontSize: 26,
@@ -76,15 +62,15 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ),
                     const SizedBox(height: 85),
-                     Text(
+                    Text(
                       "Hi ${widget.user.firstName}",
-                      style:
-                          TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                      style: const TextStyle(
+                          fontSize: 22, fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(height: 5),
-                    const Text(
-                      "Number of tasks pending",
-                      style: TextStyle(color: Colors.grey),
+                    Text(
+                      "${widget.user.tasks.where((task) => !task.completed).length} tasks pending",
+                      style: const TextStyle(color: Colors.grey),
                     ),
                   ],
                 ),
@@ -101,13 +87,16 @@ class _HomePageState extends State<HomePage> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  buildOvalDateWidget(previousDay, Colors.white),
+                  buildOvalDateWidget(
+                      now.subtract(const Duration(days: 1)), Colors.white),
                   const SizedBox(width: 20),
-                  buildOvalDateWidget(currentDay, Colors.purple.shade400),
+                  buildOvalDateWidget(now, Colors.purple.shade400),
                   const SizedBox(width: 20),
-                  buildOvalDateWidget(nextDay1, Colors.white),
+                  buildOvalDateWidget(
+                      now.add(const Duration(days: 1)), Colors.white),
                   const SizedBox(width: 20),
-                  buildOvalDateWidget(nextDay2, Colors.white),
+                  buildOvalDateWidget(
+                      now.add(const Duration(days: 2)), Colors.white),
                 ],
               ),
             ),
@@ -126,18 +115,18 @@ class _HomePageState extends State<HomePage> {
                         child: Container(
                           height: 130,
                           decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                            colors: [Colors.pink, Colors.purple],
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
+                            gradient: const LinearGradient(
+                              colors: [Colors.pink, Colors.purple],
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
                             ),
                             borderRadius: BorderRadius.circular(10),
                           ),
-                          child: const Center(
+                          child: Center(
                             child: Text(
-                              "3\nCompleted",
+                              "${widget.user.tasks.where((task) => now.year == task.year && now.month == task.month && task.completed).length}\nCompleted",
                               textAlign: TextAlign.center,
-                              style: TextStyle(
+                              style: const TextStyle(
                                 color: Colors.white,
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
@@ -151,18 +140,18 @@ class _HomePageState extends State<HomePage> {
                         child: Container(
                           height: 100,
                           decoration: BoxDecoration(
-                            gradient: LinearGradient(
+                            gradient: const LinearGradient(
                               colors: [Colors.orangeAccent, Colors.red],
                               begin: Alignment.topLeft,
                               end: Alignment.bottomRight,
                             ),
                             borderRadius: BorderRadius.circular(10),
                           ),
-                          child: const Center(
+                          child: Center(
                             child: Text(
-                              "7\nIn Progress",
+                              "${widget.user.tasks.where((task) => now.year == task.year && now.month == task.month && !task.completed).length}\nIn Progress",
                               textAlign: TextAlign.center,
-                              style: TextStyle(
+                              style: const TextStyle(
                                 color: Colors.white,
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
@@ -180,7 +169,7 @@ class _HomePageState extends State<HomePage> {
                         child: Container(
                           height: 100,
                           decoration: BoxDecoration(
-                            gradient: LinearGradient(
+                            gradient: const LinearGradient(
                               colors: [Colors.green, Colors.tealAccent],
                               begin: Alignment.topLeft,
                               end: Alignment.bottomRight,
@@ -205,18 +194,18 @@ class _HomePageState extends State<HomePage> {
                         child: Container(
                           height: 145,
                           decoration: BoxDecoration(
-                            gradient: LinearGradient(
+                            gradient: const LinearGradient(
                               colors: [Colors.blue, Colors.purple],
                               begin: Alignment.topLeft,
                               end: Alignment.bottomRight,
                             ),
                             borderRadius: BorderRadius.circular(10),
                           ),
-                          child:  Center(
+                          child: Center(
                             child: Text(
                               "Clock\n$currentTime",
                               textAlign: TextAlign.center,
-                              style: TextStyle(
+                              style: const TextStyle(
                                 color: Colors.white,
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
@@ -250,7 +239,7 @@ class _HomePageState extends State<HomePage> {
                 color: Colors.black.withOpacity(0.2),
                 spreadRadius: 2,
                 blurRadius: 10,
-                offset: Offset(3, 2),
+                offset: const Offset(3, 2),
               ),
             ],
           ),
@@ -258,7 +247,7 @@ class _HomePageState extends State<HomePage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                getDayNumber(date),
+                DateFormat('d').format(date),
                 style: const TextStyle(
                   color: Colors.black,
                   fontSize: 20,
@@ -268,7 +257,7 @@ class _HomePageState extends State<HomePage> {
               ),
               const SizedBox(height: 4),
               Text(
-                getDayName(date),
+                DateFormat('EEE').format(date),
                 style: const TextStyle(
                   color: Colors.black,
                   fontSize: 14,
@@ -281,5 +270,4 @@ class _HomePageState extends State<HomePage> {
       ],
     );
   }
-
 }
