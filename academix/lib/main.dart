@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:academix/home/splash_screen.dart';
 
 import 'page_handler.dart';
 import 'authentication/login.dart';
@@ -29,7 +30,7 @@ class _AcademixAppState extends State<AcademixApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: LoginPage(),
+      home: SplashScreen(),
     );
   }
 }
