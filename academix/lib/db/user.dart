@@ -129,6 +129,42 @@ class User {
       return null;
     }
   }
+  static Future<bool> checkEmailExists(String email) async {
+    try {
+      QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+          .collection("users")
+          .where("email", isEqualTo: email)
+          .get();
+      return querySnapshot.docs.isNotEmpty;
+    } catch (e) {
+      return false;
+    }
+  }
+  static Future<bool> updatePassword(String email, String newPassword) async {
+    try {
+      QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+          .collection("users")
+          .where("email", isEqualTo: email)
+          .get();
+
+      if (querySnapshot.docs.isNotEmpty) {
+
+        String userId = querySnapshot.docs.first.id;
+
+        await FirebaseFirestore.instance
+            .collection("users")
+            .doc(userId)
+            .update({"password": newPassword});
+
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      return false;
+    }
+  }
+
 
   List<Task> getTasksForWeek(DateTime activeDate) {
     DateTime startOfWeek = activeDate.subtract(Duration(days: activeDate.weekday - 1));

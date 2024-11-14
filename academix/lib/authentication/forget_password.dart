@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-
+import '../db/user.dart';
 import '../page_handler.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ForgetPasswordPage extends StatefulWidget {
   const ForgetPasswordPage({super.key});
@@ -112,9 +113,17 @@ class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
-                    onPressed: () {
+                    onPressed: () async {
                       if (_formKey.currentState!.validate()) {
-                        pageHandler.toResetPassword();
+                        bool emailExists = await User.checkEmailExists(emailController.text);
+                        if (emailExists) {
+                          pageHandler.toResetPassword(emailController.text);
+                        } else {
+                          emailController.text = "";
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text("Email not found. Please try again.")),
+                          );
+                        }
                       }
                     },
                     child: Text(

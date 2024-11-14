@@ -24,13 +24,31 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  double _opacity = 0.0;
+
   @override
   void initState() {
     super.initState();
-    Future.delayed(const Duration(seconds: 2), () {
+
+    Future.delayed(const Duration(milliseconds: 500), () {
+      setState(() {
+        _opacity = 1.0;
+      });
+    });
+
+    Future.delayed(const Duration(seconds: 3), () {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => const LoginPage()),
+        PageRouteBuilder(
+          pageBuilder: (context, animation, secondaryAnimation) => const LoginPage(),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            return FadeTransition(
+              opacity: animation,
+              child: child,
+            );
+          },
+          transitionDuration: const Duration(seconds: 1),
+        ),
       );
     });
   }
@@ -39,32 +57,32 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.transparent,
-      body: Center(
-        child: Stack(
-          children: [
-            Positioned.fill(
-              child: Container(
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [Colors.blue.shade800, Colors.purple.shade400],
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                  ),
+      body: Stack(
+        children: [
+          Positioned.fill(
+            child: Container(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [Colors.blue.shade800, Colors.purple.shade400],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
                 ),
               ),
             ),
-            // Content in the center
-            Center(
+          ),
+          Center(
+            child: AnimatedOpacity(
+              opacity: _opacity,
+              duration: const Duration(seconds: 2),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Icon(
-                    Icons.calendar_today, // Calendar Icon
+                    Icons.calendar_month,
                     size: 120,
                     color: Colors.white,
                   ),
-
                   const SizedBox(height: 20),
                   Text(
                     'Academix',
@@ -73,11 +91,10 @@ class _SplashScreenState extends State<SplashScreen> {
                       fontWeight: FontWeight.bold,
                       color: Colors.white.withOpacity(0.9),
                       letterSpacing: 1.5,
-                      fontFamily: 'Roboto', // Custom font for style
+                      fontFamily: 'Roboto',
                     ),
                   ),
                   const SizedBox(height: 10),
-                  // Tagline Text
                   Text(
                     'Your Academic Calendar',
                     style: TextStyle(
@@ -89,9 +106,10 @@ class _SplashScreenState extends State<SplashScreen> {
                 ],
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
 }
+
