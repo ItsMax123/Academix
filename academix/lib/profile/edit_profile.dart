@@ -19,6 +19,14 @@ class _EditProfilePageState extends State<EditProfilePage> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
+  void initState() {
+    super.initState();
+    firstNameController.text = widget.user.firstName;
+    lastNameController.text = widget.user.lastName;
+    emailController.text = widget.user.email;
+    passwordController.text = widget.user.password;
+  }
+
   @override
   Widget build(BuildContext context) {
     UserPageHandler pageHandler = UserPageHandler(context, widget.user);
@@ -31,7 +39,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
             const Icon(
               Icons.account_circle,
               size: 100,
-              color: Colors.grey,
+              color: Colors.black,
             ),
             SizedBox(height: 60),
             Form(
@@ -55,9 +63,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
                     ),
                     child: TextField(
                       controller: firstNameController,
-                      enabled: false,
+                      enabled: true,
                       decoration: InputDecoration(
-                        labelText: 'First Name',
                         labelStyle: TextStyle(color: Colors.grey),
                         border: InputBorder.none,
                         contentPadding: EdgeInsets.symmetric(horizontal: 10),
@@ -82,9 +89,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
                     ),
                     child: TextField(
                       controller: lastNameController,
-                      enabled: false,
+                      enabled: true,
                       decoration: InputDecoration(
-                        labelText: 'Last Name',
                         labelStyle: TextStyle(color: Colors.grey),
                         border: InputBorder.none,
                         contentPadding: EdgeInsets.symmetric(horizontal: 10),
@@ -109,9 +115,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
                     ),
                     child: TextField(
                       controller: emailController,
-                      enabled: false,
+                      enabled: true,
                       decoration: InputDecoration(
-                        labelText: 'Email Address',
                         labelStyle: TextStyle(color: Colors.grey),
                         border: InputBorder.none,
                         contentPadding: EdgeInsets.symmetric(horizontal: 10),
@@ -135,10 +140,10 @@ class _EditProfilePageState extends State<EditProfilePage> {
                     ),
                     child: TextField(
                       controller: passwordController,
-                      enabled: false,
+                      enabled: true,
                       obscureText: true,
+
                       decoration: InputDecoration(
-                        labelText: 'Password',
                         labelStyle: TextStyle(color: Colors.grey),
                         border: InputBorder.none,
                         contentPadding: EdgeInsets.symmetric(horizontal: 10),
@@ -149,6 +154,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 ],
               ),
             ),
+
             SizedBox(height: 75),
             SizedBox(
               width: double.infinity,

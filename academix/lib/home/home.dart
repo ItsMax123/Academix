@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 import '../db/user.dart';
 import '../page_handler.dart';
 import '../bottom_nav.dart';
+import 'dart:async';
 
 class HomePage extends StatefulWidget {
   final User user;
@@ -15,6 +16,18 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   DateTime today = DateTime.now();
+  String currentTime = '';
+
+  @override
+  void initState() {
+    super.initState();
+    currentTime = DateFormat('HH:mm').format(DateTime.now());
+    Timer.periodic(const Duration(seconds: 1), (Timer timer) {
+      setState(() {
+        currentTime = DateFormat('HH:mm').format(DateTime.now());
+      });
+    });
+  }
 
   String getDayName(DateTime date) {
     return DateFormat('EEE').format(date);
@@ -27,11 +40,12 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     UserPageHandler pageHandler = UserPageHandler(context, widget.user);
-    // Calculate days for display
+
     DateTime previousDay = today.subtract(const Duration(days: 1));
     DateTime currentDay = today;
     DateTime nextDay1 = today.add(const Duration(days: 1));
     DateTime nextDay2 = today.add(const Duration(days: 2));
+
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -62,8 +76,8 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ),
                     const SizedBox(height: 85),
-                    const Text(
-                      "Hi User.",
+                     Text(
+                      "Hi ${widget.user.firstName}",
                       style:
                           TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                     ),
@@ -77,7 +91,7 @@ class _HomePageState extends State<HomePage> {
                 const Icon(
                   Icons.account_circle,
                   size: 80,
-                  color: Colors.grey,
+                  color: Colors.black,
                 ),
               ],
             ),
@@ -98,7 +112,6 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             const SizedBox(height: 50),
-            // Monthly Preview Title
             const Text(
               "Monthly Preview",
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
@@ -199,9 +212,9 @@ class _HomePageState extends State<HomePage> {
                             ),
                             borderRadius: BorderRadius.circular(10),
                           ),
-                          child: const Center(
+                          child:  Center(
                             child: Text(
-                              "Clock\n18:30",
+                              "Clock\n$currentTime",
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 color: Colors.white,
@@ -268,7 +281,5 @@ class _HomePageState extends State<HomePage> {
       ],
     );
   }
-
-
 
 }

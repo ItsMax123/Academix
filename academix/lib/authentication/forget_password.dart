@@ -79,18 +79,27 @@ class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
                   key: _formKey,
                   child: Column(
                     children: [
-SizedBox(height: 10,),
+                      SizedBox(
+                        height: 10,
+                      ),
                       Container(
                         decoration: BoxDecoration(
                           border: Border.all(color: Colors.grey),
                           borderRadius: BorderRadius.circular(5),
                         ),
-                        child: TextField(
+                        child: TextFormField(
                           controller: emailController,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter your email Address';
+                            }
+                            return null;
+                          },
                           decoration: InputDecoration(
                             labelText: 'Email Address',
                             labelStyle: TextStyle(color: Colors.grey),
-                            prefixIcon: Icon(Icons.email_outlined, color: Colors.grey),
+                            prefixIcon:
+                                Icon(Icons.email_outlined, color: Colors.grey),
                             border: InputBorder.none,
                           ),
                         ),
@@ -104,7 +113,9 @@ SizedBox(height: 10,),
                   width: double.infinity,
                   child: ElevatedButton(
                     onPressed: () {
-                      pageHandler.toResetPassword();
+                      if (_formKey.currentState!.validate()) {
+                        pageHandler.toResetPassword();
+                      }
                     },
                     child: Text(
                       'Reset Password',
