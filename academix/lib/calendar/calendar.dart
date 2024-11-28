@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+import '../db/holiday.dart';
 import '../db/user.dart';
 import '../page_handler.dart';
 import '../bottom_nav.dart';
@@ -64,8 +65,14 @@ class _CalendarPageState extends State<CalendarPage> {
             Expanded(
               child: ListView(
                 children: [
-                  for (Task task in widget.user.getTasksOn(active))
-                    taskListItem(pageHandler, task)
+                  ...[
+                    for (Holiday holiday in User.getHolidayOn(active))
+                      holidayListItem(pageHandler, holiday)
+                  ],
+                  ...[
+                    for (Task task in widget.user.getTasksOn(active))
+                      taskListItem(pageHandler, task)
+                  ]
                 ],
               ),
             ),
@@ -122,6 +129,18 @@ class _CalendarPageState extends State<CalendarPage> {
 
   Widget dayGridItem(DateTime date) {
     List<Widget> circles = [];
+    for (Holiday _ in User.getHolidayOn(date)) {
+      circles.add(Container(
+        margin: const EdgeInsets.symmetric(horizontal: 1),
+        width: 8.0,
+        height: 8.0,
+        decoration: const BoxDecoration(
+          color: Colors.pinkAccent,
+          shape: BoxShape.circle,
+        ),
+      ));
+      if (circles.length >= 4) break;
+    }
     for (Task task in widget.user.getTasksOn(date)) {
       if (task.completed) continue;
       circles.add(Container(
@@ -159,6 +178,31 @@ class _CalendarPageState extends State<CalendarPage> {
           ),
           Wrap(children: circles),
         ],
+      ),
+    );
+  }
+
+  Widget holidayListItem(UserPageHandler pageHandler, Holiday holiday) {
+    return Container(
+      margin: const EdgeInsets.symmetric(vertical: 5),
+      decoration: BoxDecoration(
+        color: Colors.pinkAccent.withOpacity(0.5),
+        border: const Border.symmetric(
+          horizontal: BorderSide(color: Colors.pinkAccent, width: 2),
+          vertical: BorderSide(color: Colors.pinkAccent, width: 4),
+        ),
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: Center(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 5),
+          child: Text(
+            holiday.name,
+            style: const TextStyle(fontSize: 20),
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+          ),
+        ),
       ),
     );
   }

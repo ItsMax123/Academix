@@ -1,8 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+import 'holiday.dart';
 import 'task.dart';
 
 class User {
+  static List<Holiday> holidays = [];
+
   DocumentReference doc;
   String id;
   List<Task> tasks;
@@ -15,6 +18,18 @@ class User {
   User(this.tasks, this.id, this.firstName, this.lastName, this.email,
       this.password)
       : doc = FirebaseFirestore.instance.collection("users").doc(id);
+
+  static List<Holiday> getHolidayOn(DateTime date) {
+    List<Holiday> holidays = [];
+    for (Holiday holiday in User.holidays) {
+      if (holiday.date.year == date.year &&
+          holiday.date.month == date.month &&
+          holiday.date.day == date.day) {
+        holidays.add(holiday);
+      }
+    }
+    return holidays;
+  }
 
   List<Task> getTasksOn(DateTime date) {
     List<Task> tasks = [];
@@ -110,8 +125,7 @@ class User {
     );
   }
 
-  static Future<User?> addUser(
-      String firstName, String lastName, String email, String password) async {
+  static Future<User?> addUser(String firstName, String lastName, String email, String password) async {
     try {
       if (await isAlreadyEmail(email)) {
         return null;

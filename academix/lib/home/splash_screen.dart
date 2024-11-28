@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
+import "package:http/http.dart";
+
+import "dart:convert";
 
 import '../authentication/login.dart';
+import '../db/holiday.dart';
+import '../db/user.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -12,14 +17,32 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   double _opacity = 0.0;
 
+  Future<List<Holiday>> _getHolidays() async {
+    List<Holiday> list = [];
+    for (int i = -1; i < 3; i++) {
+      try {
+        Response res = await get(Uri.parse(
+          "https://canada-holidays.ca/api/v1/provinces/QC"
+          "?optional=true"
+          "&year=${DateTime.now().year + i}",
+        ));
+        for (Map<String, dynamic> data in json.decode(res.body)["province"]
+            ["holidays"]) {
+          list.add(Holiday.fromMap(data));
+        }
+      } catch (error) {
+        print(error);
+      }
+    }
+    return list;
+  }
+
   @override
   void initState() {
     super.initState();
 
-    Future.delayed(const Duration(milliseconds: 500), () {
-      setState(() {
-        _opacity = 1.0;
-      });
+    _getHolidays().then((data) {
+      User.holidays = data;
     });
 
     Future.delayed(const Duration(seconds: 3), () {
@@ -43,6 +66,11 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
+    Future.delayed(const Duration(milliseconds: 500), () {
+      setState(() {
+        _opacity = 1.0;
+      });
+    });
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: Stack(
