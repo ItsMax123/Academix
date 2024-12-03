@@ -23,6 +23,7 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     UserPageHandler pageHandler = UserPageHandler(context, widget.user);
     return Scaffold(
+      backgroundColor: Colors.white,
       bottomNavigationBar: BottomNav(user: widget.user, index: 3),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 50.0),
@@ -51,6 +52,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       border: Border.all(color: Colors.grey),
                       borderRadius: BorderRadius.circular(5),
                     ),
+
                     child: TextField(
                       controller: firstNameController,
                       enabled: false,

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:email_validator/email_validator.dart';
 import '../db/user.dart';
 import '../page_handler.dart';
 import '../bottom_nav.dart';
@@ -18,6 +18,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
   final TextEditingController lastNameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
@@ -33,6 +34,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
     UserPageHandler pageHandler = UserPageHandler(context, widget.user);
     return Scaffold(
       bottomNavigationBar: BottomNav(user: widget.user, index: 3),
+      backgroundColor: Colors.white,
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 50.0),
         child: Column(
@@ -44,6 +46,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
             ),
             const SizedBox(height: 60),
             Form(
+              key: _formKey,
               child: Column(
                 children: [
                   const SizedBox(height: 10),
@@ -68,6 +71,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                         border: InputBorder.none,
                         contentPadding: EdgeInsets.symmetric(horizontal: 10),
                         suffixIcon: Icon(Icons.edit, color: Colors.grey),
+
                       ),
                     ),
                   ),
@@ -110,8 +114,16 @@ class _EditProfilePageState extends State<EditProfilePage> {
                       border: Border.all(color: Colors.grey),
                       borderRadius: BorderRadius.circular(5),
                     ),
-                    child: TextField(
+                    child: TextFormField(
                       controller: emailController,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter your email address';
+                        } else if (!EmailValidator.validate(value)) {
+                          return 'Please enter a valid email address';
+                        }
+                        return null;
+                      },
                       enabled: true,
                       decoration: const InputDecoration(
                         labelStyle: TextStyle(color: Colors.grey),
@@ -135,8 +147,20 @@ class _EditProfilePageState extends State<EditProfilePage> {
                       border: Border.all(color: Colors.grey),
                       borderRadius: BorderRadius.circular(5),
                     ),
-                    child: TextField(
+                    child: TextFormField(
                       controller: passwordController,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter your password';
+                        } else if (value.length < 6) {
+                          return 'Password must be at least 6 characters long';
+                        } else if (!RegExp(r'[A-Z]').hasMatch(value)) {
+                          return 'Password must contain at least one uppercase letter';
+                        } else if (!RegExp(r'[0-9]').hasMatch(value)) {
+                          return 'Password must contain at least one number';
+                        }
+                        return null;
+                      },
                       enabled: true,
                       obscureText: true,
                       decoration: const InputDecoration(
@@ -155,12 +179,14 @@ class _EditProfilePageState extends State<EditProfilePage> {
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: () {
-                  widget.user.firstName = firstNameController.text;
-                  widget.user.lastName = lastNameController.text;
-                  widget.user.email = emailController.text;
-                  widget.user.password = passwordController.text;
-                  widget.user.save();
-                  pageHandler.toProfile();
+                  if (_formKey.currentState?.validate() ?? false) {
+                    widget.user.firstName = firstNameController.text;
+                    widget.user.lastName = lastNameController.text;
+                    widget.user.email = emailController.text;
+                    widget.user.password = passwordController.text;
+                    widget.user.save();
+                    pageHandler.toProfile();
+                  }
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.black,
