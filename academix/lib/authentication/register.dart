@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:email_validator/email_validator.dart';
 import '../page_handler.dart';
 import '../db/user.dart';
 
@@ -101,15 +101,16 @@ class _RegisterPageState extends State<RegisterPage> {
                         controller: emailController,
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return 'Please enter your email Address';
+                            return 'Please enter your email address';
+                          } else if (!EmailValidator.validate(value)) {
+                            return 'Please enter a valid email address';
                           }
                           return null;
                         },
                         decoration: const InputDecoration(
                           labelText: 'Email Address',
                           labelStyle: TextStyle(color: Colors.grey),
-                          prefixIcon:
-                              Icon(Icons.email_outlined, color: Colors.grey),
+                          prefixIcon: Icon(Icons.email_outlined, color: Colors.grey),
                         ),
                       ),
                       const SizedBox(height: 8),
@@ -119,16 +120,20 @@ class _RegisterPageState extends State<RegisterPage> {
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return 'Please enter your password';
+                          } else if (value.length < 6) {
+                            return 'Password must be at least 6 characters long';
+                          } else if (!RegExp(r'[A-Z]').hasMatch(value)) {
+                            return 'Password must contain at least one uppercase letter';
+                          } else if (!RegExp(r'[0-9]').hasMatch(value)) {
+                            return 'Password must contain at least one number';
                           }
                           return null;
                         },
                         decoration: const InputDecoration(
                           labelText: 'Password',
                           labelStyle: TextStyle(color: Colors.grey),
-                          prefixIcon:
-                              Icon(Icons.lock_outline, color: Colors.grey),
-                          suffixIcon: Icon(Icons.visibility_outlined,
-                              color: Colors.grey),
+                          prefixIcon: Icon(Icons.lock_outline, color: Colors.grey),
+                          suffixIcon: Icon(Icons.visibility_outlined, color: Colors.grey),
                         ),
                       ),
                     ],
