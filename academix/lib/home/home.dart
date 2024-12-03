@@ -4,6 +4,7 @@ import 'dart:async';
 
 import '../db/user.dart';
 import '../bottom_nav.dart';
+import '../db/quotes.dart';
 
 class HomePage extends StatefulWidget {
   final User user;
@@ -17,11 +18,29 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   DateTime now = DateTime.now();
   String currentTime = '';
+  String quoteText = "Loading quote...";
+  String quoteAuthor = "";
+
+  Future<void> _loadRandomQuote() async {
+    try {
+      Map<String, String> randomQuote = await getRandomQuote();
+      setState(() {
+        quoteText = randomQuote['quote'] ?? "No quote available";
+        quoteAuthor = randomQuote['author'] ?? "Unknown";
+      });
+      print('Quote loaded: $quoteText - $quoteAuthor');
+    } catch (e) {
+      print('Error loading quote: $e');
+    }
+  }
+
 
   @override
   void initState() {
     super.initState();
     currentTime = DateFormat('HH:mm').format(DateTime.now());
+    _loadRandomQuote();
+
     Timer.periodic(const Duration(seconds: 1), (Timer timer) {
       if (mounted) {
         setState(() {
@@ -170,23 +189,39 @@ class _HomePageState extends State<HomePage> {
                           height: 100,
                           decoration: BoxDecoration(
                             gradient: const LinearGradient(
-                              colors: [Colors.green, Colors.tealAccent],
+                              colors: [Colors.teal, Colors.tealAccent],
                               begin: Alignment.topLeft,
                               end: Alignment.bottomRight,
                             ),
                             borderRadius: BorderRadius.circular(10),
                           ),
-                          child: const Center(
-                            child: Text(
-                              "Quote",
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                              ),
+                          child: Center(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  quoteText,
+                                  textAlign: TextAlign.center,
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                const SizedBox(height: 8),
+                                Text(
+                                  "- $quoteAuthor",
+                                  textAlign: TextAlign.center,
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
+
                         ),
                       ),
                       const SizedBox(width: 10),
