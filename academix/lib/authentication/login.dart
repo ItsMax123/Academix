@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-
+import "package:flutter_local_notifications/flutter_local_notifications.dart";
 import '../page_handler.dart';
 import '../db/user.dart';
+
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -15,6 +16,16 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   bool rememberPassword = true;
+
+   FlutterLocalNotificationsPlugin plugin = FlutterLocalNotificationsPlugin();
+
+  @override
+  void initState() {
+    super.initState();
+    plugin.initialize(const InitializationSettings(
+       android: AndroidInitializationSettings("@mipmap/ic_launcher"),
+    ));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -152,6 +163,7 @@ class _LoginPageState extends State<LoginPage> {
                         if (user == null) {
                           notify("Incorrect Information");
                         } else {
+                          await user.checkAndNotifyTasksForToday(plugin);
                           pageHandler.getUserPageHandler(user).toHome();
                         }
                       }

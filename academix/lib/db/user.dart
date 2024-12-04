@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-
+import "package:flutter_local_notifications/flutter_local_notifications.dart";
 import 'holiday.dart';
 import 'task.dart';
 
@@ -42,6 +42,44 @@ class User {
     }
     return tasks;
   }
+  Future<void> checkAndNotifyTasksForToday(
+      FlutterLocalNotificationsPlugin plugin) async {
+    DateTime now = DateTime.now();
+    DateTime todayStart = DateTime(now.year, now.month, now.day);
+    DateTime todayEnd = DateTime(now.year, now.month, now.day, 23, 59, 59);
+
+    QuerySnapshot taskSnapshot = await doc
+        .collection("tasks")
+        .where("year", isEqualTo: now.year)
+        .where("month", isEqualTo: now.month)
+        .where("day", isEqualTo: now.day)
+        .get();
+
+    List<Task> todayTasks = taskSnapshot.docs
+        .map((task) => Task.fromMap(id, task.id, task.data() as Map<String, dynamic>))
+        .toList();
+
+    if (todayTasks.isNotEmpty) {
+      String taskList = todayTasks.map((task) => task.title).join(", ");
+
+      await plugin.show(
+        0,
+        "Task Reminder",
+        "You have tasks due today: $taskList",
+        const NotificationDetails(
+          android: AndroidNotificationDetails(
+            "channel_id",
+            "channel_name",
+            channelDescription: "Task reminders",
+            importance: Importance.high,
+            priority: Priority.high,
+            icon: '@mipmap/ic_launcher',
+          ),
+        ),
+      );
+    }
+  }
+
 
   List<Task> getWeeklyTasks() {
     DateTime now = DateTime.now();
