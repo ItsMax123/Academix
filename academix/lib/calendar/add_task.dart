@@ -28,6 +28,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
     UserPageHandler pageHandler = UserPageHandler(context, widget.user);
     return Scaffold(
       bottomNavigationBar: BottomNav(user: widget.user, index: 1),
+      backgroundColor: Colors.white,
       body: Column(
         children: [
           Padding(
