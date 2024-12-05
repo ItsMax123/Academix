@@ -264,6 +264,7 @@ class _TaskPageState extends State<TaskPage> {
                             height: 50,
                             child: ElevatedButton(
                               onPressed: () {
+                                widget.task.save();
                                 pageHandler.back();
                               },
                               style: ElevatedButton.styleFrom(
